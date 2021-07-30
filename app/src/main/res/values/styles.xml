@@ -6,18 +6,26 @@
         <item name="android:layout_marginEnd">36dp</item>
     </style>
 
+    <style name="InstaFormEditTextInput" parent="FormContainer">
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">20dp</item>
+    </style>
+
     <style name="InstaTextViewBase">
         <item name="android:textColor">@color/grayText</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="InstaFormEditText" parent="FormContainer">
+    <style name="InstaFormEditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/edit_text_background</item>
         <item name="android:padding">16dp</item>
-        <item name="android:layout_marginBottom">24dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
     </style>
 
     <style name="InstaFormButton" parent="FormContainer">
@@ -38,5 +46,9 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="InstaFormTextError">
+        <item name="android:textColor">@color/red</item>
     </style>
 </resources>

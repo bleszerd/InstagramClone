@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,9 +8,9 @@
     tools:context=".login.presentation.LoginActivity">
 
     <ScrollView
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,17 +25,34 @@
                 android:paddingHorizontal="80dp"
                 android:src="@drawable/instagram_logo_black" />
 
-            <EditText
-                android:id="@+id/loginActivityEditTextEmail"
-                style="@style/InstaFormEditText"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/loginActivityInputLayoutEmail"
+                style="@style/InstaFormEditTextInput"
+                app:errorTextAppearance="@style/InstaFormTextError"
+                app:hintEnabled="false">
 
-            <EditText
-                android:id="@+id/loginActivityEditTextPassword"
-                style="@style/InstaFormEditText"
-                android:hint="@string/password"
-                android:inputType="textPassword" />
+                <EditText
+                    android:id="@+id/loginActivityEditTextEmail"
+                    style="@style/InstaFormEditText"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/loginActivityInputLayoutPassword"
+                style="@style/InstaFormEditTextInput"
+                app:errorTextAppearance="@style/InstaFormTextError"
+                app:hintEnabled="false">
+
+                <EditText
+                    android:id="@+id/loginActivityEditTextPassword"
+                    style="@style/InstaFormEditText"
+                    android:hint="@string/password"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <Button
                 android:id="@+id/loginActivityButtonEnter"

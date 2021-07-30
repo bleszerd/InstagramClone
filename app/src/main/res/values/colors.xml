@@ -8,4 +8,5 @@
     <color name="blueDisabled">#C3E0FA</color>
     <color name="blueEnabled">#3897F0</color>
     <color name="grayText">#999999</color>
+    <color name="red">#FF0000</color>
 </resources>
