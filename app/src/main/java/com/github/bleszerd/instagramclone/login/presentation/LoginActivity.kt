@@ -1,11 +1,12 @@
 package com.github.bleszerd.instagramclone.login.presentation
 
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
 import com.github.bleszerd.instagramclone.R
 import com.github.bleszerd.instagramclone.databinding.ActivityLoginBinding
 
@@ -16,10 +17,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            if(!s.isNullOrEmpty())
-                binding.loginActivityButtonEnter.isEnabled = true
-            else
-                binding.loginActivityButtonEnter.isEnabled = false
+            binding.loginActivityButtonEnter.isEnabled = !s.isNullOrEmpty()
         }
 
         override fun afterTextChanged(s: Editable?) {
@@ -40,11 +38,19 @@ class LoginActivity : AppCompatActivity() {
 
         //Force errors on button click
         buttonEnter.setOnClickListener {
-            editLayoutEmail.error = "Este e-mail é inválido!"
-            editTextEmail.background = ContextCompat.getDrawable(this, R.drawable.edit_text_background_error)
+            buttonEnter.showProgress(true)
 
-            editLayoutPassword.error = "Senha inválida!"
-            editTextPassword.background = ContextCompat.getDrawable(this, R.drawable.edit_text_background_error)
+            Handler(mainLooper).postDelayed({
+                editLayoutEmail.error = "Este e-mail é inválido!"
+                editTextEmail.background =
+                    ContextCompat.getDrawable(this, R.drawable.edit_text_background_error)
+
+                editLayoutPassword.error = "Senha inválida!"
+                editTextPassword.background =
+                    ContextCompat.getDrawable(this, R.drawable.edit_text_background_error)
+
+                buttonEnter.showProgress(false)
+            }, 2000)
         }
 
         //Set input listeners

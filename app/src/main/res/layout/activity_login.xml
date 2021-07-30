@@ -54,12 +54,11 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <Button
-                android:enabled="false"
+            <com.github.bleszerd.instagramclone.login.presentation.LoadingButton
                 android:id="@+id/loginActivityButtonEnter"
-                style="@style/InstaFormButton"
-                android:text="@string/enter"
-                android:textAllCaps="false" />
+                android:layout_width="match_parent"
+                app:text="Entrar"
+                android:layout_height="wrap_content" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
