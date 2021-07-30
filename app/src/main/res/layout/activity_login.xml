@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".login.presentation.LoginActivity">
+
+    <ScrollView
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/loginActivityImageViewLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginBottom="48dp"
+                android:paddingHorizontal="80dp"
+                android:src="@drawable/instagram_logo_black" />
+
+            <EditText
+                android:id="@+id/loginActivityEditTextEmail"
+                style="@style/InstaFormEditText"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/loginActivityEditTextPassword"
+                style="@style/InstaFormEditText"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/loginActivityButtonEnter"
+                style="@style/InstaFormButton"
+                android:text="@string/enter"
+                android:textAllCaps="false" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <View
+                    style="@style/FormContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:background="?attr/colorPrimaryVariant" />
+
+                <TextView
+                    style="@style/InstaTextViewBase"
+                    android:layout_gravity="center"
+                    android:background="@color/white"
+                    android:padding="8dp"
+                    android:text="@string/or"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/loginActivityButtonEnterFacebook"
+                style="@style/InstaFormButton.Link"
+                android:drawableLeft="@drawable/facebook_logo"
+                android:text="@string/enter_with_facebook"
+                tools:ignore="RtlHardcoded" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/colorPrimaryVariant" />
+
+            <TextView
+                android:id="@+id/loginActivityTextViewRegister"
+                style="@style/InstaTextViewBase"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:padding="24dp"
+                android:text="@string/does_not_have_account" />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
