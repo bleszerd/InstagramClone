@@ -55,6 +55,7 @@
 
 
             <Button
+                android:enabled="false"
                 android:id="@+id/loginActivityButtonEnter"
                 style="@style/InstaFormButton"
                 android:text="@string/enter"
