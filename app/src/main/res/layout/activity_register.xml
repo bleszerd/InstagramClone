@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".register.presentation.RegisterActivity">
+
+    <ScrollView
+        android:id="@+id/registerActivityScrollViewScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <fragment
+                android:id="@+id/registerActivityFragmentFragment"
+                android:name="com.github.bleszerd.instagramclone.register.presentation.RegisterPhotoFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                tools:layout="@layout/fragment_register_photo" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

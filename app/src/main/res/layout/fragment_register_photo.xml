@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".register.presentation.RegisterActivity"
+    tools:showIn="@layout/activity_register">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/photo_icon" />
+
+    <TextView
+        style="@style/InstaTextViewBaseForm"
+        android:layout_gravity="center"
+        android:text="@string/photo_register_title"
+        android:textSize="24sp" />
+
+    <TextView
+        style="@style/InstaTextViewBaseForm"
+        android:layout_gravity="center"
+        android:text="@string/photo_register_subtitle" />
+
+
+    <com.github.bleszerd.instagramclone.login.presentation.LoadingButton
+        android:id="@+id/registerFragmentWelcomeButtonNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/add_photo"
+        tools:layout_height="75dp" />
+
+    <Button
+        android:id="@+id/registerFragmentButtonJumpPhoto"
+        android:layout_gravity="center"
+        android:layout_marginBottom="36dp"
+        android:text="@string/jump"
+        style="@style/InstaFormButton.Link" />
+
+</LinearLayout>

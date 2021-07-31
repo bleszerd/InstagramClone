@@ -43,7 +43,7 @@ class LoadingButton @JvmOverloads constructor(
                 BlendModeCompat.DST)
 
         //Get attrs
-        buttonText = attributes.getString(R.styleable.LoadingButton_text)!!
+        buttonText = attributes.getString(R.styleable.LoadingButton_text)
 
         //Use attrs
         button.text = buttonText
@@ -61,7 +61,6 @@ class LoadingButton @JvmOverloads constructor(
     }
 
     fun showProgress(enabled: Boolean) {
-
         button.isClickable = !enabled
         button.text = if (enabled) "" else buttonText
         progressBar.visibility = if (enabled) VISIBLE else GONE

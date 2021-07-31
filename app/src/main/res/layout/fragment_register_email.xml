@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".register.presentation.RegisterActivity"
+    tools:showIn="@layout/activity_register">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:baselineAligned="false"
+        android:scaleX=".5"
+        android:scaleY=".5"
+        android:src="@drawable/photo_icon" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/registerFragmentEmailInputLayoutEmail"
+        style="@style/InstaFormEditTextInput"
+        app:errorTextAppearance="@style/InstaFormTextError"
+        app:hintEnabled="false"
+        tools:boxStrokeWidth="0.1dp">
+
+        <EditText
+            android:id="@+id/registerFragmentEmailEditTextEmail"
+            style="@style/InstaFormEditText"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.github.bleszerd.instagramclone.login.presentation.LoadingButton
+        android:id="@+id/registerFragmentButtonNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/next"
+        tools:layout_height="75dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="128dp"
+        android:background="?attr/colorPrimaryVariant" />
+
+    <TextView
+        android:id="@+id/registerFragmentNamePasswordTextViewLogin"
+        style="@style/InstaTextViewBase"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:padding="24dp"
+        android:text="@string/already_has_account" />
+
+</LinearLayout>

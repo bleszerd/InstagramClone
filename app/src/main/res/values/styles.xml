@@ -20,6 +20,25 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="InstaTextViewBaseForm" parent="FormContainer">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginBottom">24dp</item>
+    </style>
+
+    <style name="InstaTextViewBaseDialog">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:textAlignment">textStart</item>
+    </style>
+
+
     <style name="InstaFormEditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
