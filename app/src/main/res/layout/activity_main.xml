@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".main.presentation.MainActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/mainActivityBottomNavigationBottomBar"
@@ -16,5 +16,13 @@
         app:itemIconTint="@color/black"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/menu_bottom_navigation" />
+
+    <fragment
+        android:id="@+id/mainActivityFragmentFragmentHost"
+        android:name="com.github.bleszerd.instagramclone.main.profile.presentation.ProfileFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/mainActivityBottomNavigationBottomBar"
+        tools:layout="@layout/fragment_main_profile" />
 
 </RelativeLayout>

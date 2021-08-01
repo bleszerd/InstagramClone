@@ -1,4 +1,4 @@
-package com.github.bleszerd.instagramclone
+package com.github.bleszerd.instagramclone.main.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
