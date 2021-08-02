@@ -1,9 +1,8 @@
 package com.github.bleszerd.instagramclone.main.profile.presentation
 
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,14 +24,21 @@ class ProfileFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        // TODO: 02/08/2021 app:layout_scrollFlags="scroll" at toolbar 
+        // TODO: 02/08/2021 app:layout_scrollFlags="scroll" at toolbar
         val binding = FragmentMainProfileBinding.inflate(layoutInflater)
 
         val recycler: RecyclerView = binding.fragmentMainProfileRecyclerViewPostList
         recycler.layoutManager = GridLayoutManager(context, 3)
         recycler.adapter = PostAdapter()
 
+        setHasOptionsMenu(true)
+
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_profile, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     inner class PostAdapter() : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {

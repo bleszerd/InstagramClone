@@ -14,12 +14,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Toolbar
-                android:background="@color/gray"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/activityMainToolbarToolbar"
                 android:layout_width="match_parent"
-                app:layout_scrollFlags="scroll"
                 android:layout_height="?attr/actionBarSize"
-                android:title="@string/app_name" />
+                android:background="@color/gray"
+                android:title=""
+                app:layout_scrollFlags="scroll">
+
+                <ImageView
+                    android:layout_gravity="start"
+                    android:padding="8dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/instagram_logo_black" />
+
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
