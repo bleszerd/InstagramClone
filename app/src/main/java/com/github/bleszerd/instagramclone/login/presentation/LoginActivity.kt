@@ -74,7 +74,9 @@ class LoginActivity : AbstractActivity(), LoginView, TextWatcher {
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        binding.loginActivityButtonEnter.isEnabled = !s.isNullOrEmpty()
+//        binding.loginActivityButtonEnter.isEnabled = !s.isNullOrEmpty()
+        binding.loginActivityButtonEnter.isEnabled =
+            (!binding.loginActivityEditTextEmail.text.isNullOrEmpty() && !binding.loginActivityEditTextPassword.text.isNullOrEmpty())
     }
 
     override fun afterTextChanged(s: Editable?) {}
