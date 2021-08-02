@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:text="@string/welcome_to_instagram" />
 
-    <com.github.bleszerd.instagramclone.login.presentation.LoadingButton
+    <com.github.bleszerd.instagramclone.common.view.LoadingButton
         android:id="@+id/registerFragmentWelcomeButtonNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

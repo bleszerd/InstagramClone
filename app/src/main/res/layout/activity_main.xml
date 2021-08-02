@@ -23,10 +23,10 @@
                 app:layout_scrollFlags="scroll">
 
                 <ImageView
-                    android:layout_gravity="start"
-                    android:padding="8dp"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:padding="8dp"
                     android:src="@drawable/instagram_logo_black" />
 
             </androidx.appcompat.widget.Toolbar>
@@ -42,10 +42,10 @@
 
             <fragment
                 android:id="@+id/mainActivityFragmentFragmentHost"
-                android:name="com.github.bleszerd.instagramclone.main.camera.presentation.CameraFragment"
+                android:name="com.github.bleszerd.instagramclone.main.home.presentation.HomeFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:layout="@layout/fragment_main_gallery" />
+                tools:layout="@layout/fragment_main_home" />
 
         </LinearLayout>
 

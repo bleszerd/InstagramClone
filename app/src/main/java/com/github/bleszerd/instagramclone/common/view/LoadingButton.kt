@@ -1,4 +1,4 @@
-package com.github.bleszerd.instagramclone.login.presentation
+package com.github.bleszerd.instagramclone.common.view
 
 import android.content.Context
 import android.util.AttributeSet

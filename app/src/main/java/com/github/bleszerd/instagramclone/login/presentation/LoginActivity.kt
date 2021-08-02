@@ -5,58 +5,78 @@ import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.github.bleszerd.instagramclone.R
+import com.github.bleszerd.instagramclone.common.view.AbstractActivity
+import com.github.bleszerd.instagramclone.common.view.LoadingButton
 import com.github.bleszerd.instagramclone.databinding.ActivityLoginBinding
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AbstractActivity(), LoginView, TextWatcher {
     private lateinit var binding: ActivityLoginBinding
-    private val textWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            binding.loginActivityButtonEnter.isEnabled = !s.isNullOrEmpty()
-        }
-
-        override fun afterTextChanged(s: Editable?) {
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Tint status bar
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.black)
 
-        //Populate references
-        val editLayoutEmail = binding.loginActivityInputLayoutEmail
-        val editLayoutPassword = binding.loginActivityInputLayoutPassword
-        val editTextEmail = binding.loginActivityEditTextEmail
-        val editTextPassword = binding.loginActivityEditTextPassword
-        val buttonEnter = binding.loginActivityButtonEnter
+        //Set button click action
+        setButtonEnterClickListener(binding.loginActivityButtonEnter)
 
-        //Force errors on button click
+        //Set input listeners
+        binding.loginActivityEditTextEmail.addTextChangedListener(this)
+        binding.loginActivityEditTextPassword.addTextChangedListener(this)
+    }
+
+    override fun showProgressBar() {
+        binding.loginActivityButtonEnter.showProgress(true)
+    }
+
+    override fun hideProgressBar() {
+        binding.loginActivityButtonEnter.showProgress(false)
+    }
+
+    private fun setButtonEnterClickListener(buttonEnter: LoadingButton) {
         buttonEnter.setOnClickListener {
             buttonEnter.showProgress(true)
 
             Handler(mainLooper).postDelayed({
-                editLayoutEmail.error = "Este e-mail é inválido!"
-                editTextEmail.background =
-                    ContextCompat.getDrawable(this, R.drawable.edit_text_background_error)
 
-                editLayoutPassword.error = "Senha inválida!"
-                editTextPassword.background =
-                    ContextCompat.getDrawable(this, R.drawable.edit_text_background_error)
-
-                buttonEnter.showProgress(false)
             }, 2000)
         }
-
-        //Set input listeners
-        editTextEmail.addTextChangedListener(textWatcher)
     }
+
+    override fun onFailureForm(emailError: String?, passwordError: String?) {
+        if (emailError != null) {
+            binding.loginActivityInputLayoutEmail.error = emailError
+            binding.loginActivityEditTextEmail.background =
+                findDrawable(R.drawable.edit_text_background_error)
+        }
+
+
+        if (passwordError != null) {
+            binding.loginActivityInputLayoutPassword.error = passwordError
+            binding.loginActivityEditTextPassword.background =
+                findDrawable(R.drawable.edit_text_background_error)
+        }
+    }
+
+    override fun onUserLogged() {
+        // TODO: 02/08/2021
+        //Show main activity
+    }
+
+
+    /* === Input listener implementation === */
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        binding.loginActivityButtonEnter.isEnabled = !s.isNullOrEmpty()
+    }
+
+    override fun afterTextChanged(s: Editable?) {}
+
 }
