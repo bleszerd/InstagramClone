@@ -6,6 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".main.presentation.MainActivity">
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Toolbar
+                android:background="@color/gray"
+                android:layout_width="match_parent"
+                app:layout_scrollFlags="scroll"
+                android:layout_height="?attr/actionBarSize"
+                android:title="@string/app_name" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/mainActivityBottomNavigationBottomBar"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:context=".main.presentation.MainActivity">
+
+            <fragment
+                android:id="@+id/mainActivityFragmentFragmentHost"
+                android:name="com.github.bleszerd.instagramclone.main.profile.presentation.ProfileFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_main_profile" />
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/mainActivityBottomNavigationBottomBar"
         android:layout_width="match_parent"
@@ -16,13 +51,5 @@
         app:itemIconTint="@color/black"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/menu_bottom_navigation" />
-
-    <fragment
-        android:id="@+id/mainActivityFragmentFragmentHost"
-        android:name="com.github.bleszerd.instagramclone.main.profile.presentation.ProfileFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/mainActivityBottomNavigationBottomBar"
-        tools:layout="@layout/fragment_main_profile" />
 
 </RelativeLayout>
