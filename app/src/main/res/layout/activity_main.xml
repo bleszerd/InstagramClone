@@ -42,10 +42,10 @@
 
             <fragment
                 android:id="@+id/mainActivityFragmentFragmentHost"
-                android:name="com.github.bleszerd.instagramclone.main.profile.presentation.ProfileFragment"
+                android:name="com.github.bleszerd.instagramclone.main.camera.presentation.CameraFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:layout="@layout/fragment_main_profile" />
+                tools:layout="@layout/fragment_main_gallery" />
 
         </LinearLayout>
 
