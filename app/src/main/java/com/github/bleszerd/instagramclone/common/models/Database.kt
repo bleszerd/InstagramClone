@@ -18,12 +18,12 @@ object Database {
     private var onCompleteListener: OnCompleteListener? = null
 
     init {
-        usersAuth.add(UserAuth("user1@gmail.com", "1234"))
-        usersAuth.add(UserAuth("user2@gmail.com", "4567"))
-        usersAuth.add(UserAuth("user3@gmail.com", "7891"))
-        usersAuth.add(UserAuth("user4@gmail.com", "1112"))
-        usersAuth.add(UserAuth("user5@gmail.com", "1314"))
-        usersAuth.add(UserAuth("user6@gmail.com", "1516"))
+//        usersAuth.add(UserAuth("user1@gmail.com", "1234"))
+//        usersAuth.add(UserAuth("user2@gmail.com", "4567"))
+//        usersAuth.add(UserAuth("user3@gmail.com", "7891"))
+//        usersAuth.add(UserAuth("user4@gmail.com", "1112"))
+//        usersAuth.add(UserAuth("user5@gmail.com", "1314"))
+//        usersAuth.add(UserAuth("user6@gmail.com", "1516"))
     }
 
 

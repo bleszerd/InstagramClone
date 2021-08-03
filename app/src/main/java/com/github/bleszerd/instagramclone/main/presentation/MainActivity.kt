@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import com.github.bleszerd.instagramclone.R
 import com.github.bleszerd.instagramclone.databinding.ActivityMainBinding
@@ -26,13 +27,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        //Verify this condition
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.decorView.windowInsetsController?.setSystemBarsAppearance(
-                APPEARANCE_LIGHT_STATUS_BARS,
-                APPEARANCE_LIGHT_STATUS_BARS)
-        };
-
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.gray)
 
@@ -40,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         if (supportActionBar != null) {
-            val cameraDrawable = getDrawable(R.drawable.ic_insta_camera)
+            val cameraDrawable = AppCompatResources.getDrawable(applicationContext, R.drawable.ic_insta_camera)
 
             supportActionBar!!.title = ""
             supportActionBar!!.setHomeAsUpIndicator(cameraDrawable)

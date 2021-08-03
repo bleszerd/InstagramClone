@@ -17,13 +17,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <fragment
-                android:id="@+id/registerActivityFragmentFragment"
-                android:name="com.github.bleszerd.instagramclone.register.presentation.RegisterPhotoFragment"
+            <FrameLayout
+                android:id="@+id/registerActivityFragmentFragmentHost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                tools:layout="@layout/fragment_register_photo" />
+                tools:layout="@layout/fragment_register_email" />
 
         </LinearLayout>
 

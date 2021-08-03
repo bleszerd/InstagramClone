@@ -12,6 +12,7 @@ import com.github.bleszerd.instagramclone.common.view.LoadingButton
 import com.github.bleszerd.instagramclone.databinding.ActivityLoginBinding
 import com.github.bleszerd.instagramclone.login.datasource.LoginLocalDataSource
 import com.github.bleszerd.instagramclone.main.presentation.MainActivity
+import com.github.bleszerd.instagramclone.register.presentation.RegisterActivity
 
 class LoginActivity : AbstractActivity(), LoginView {
     private lateinit var binding: ActivityLoginBinding
@@ -23,11 +24,14 @@ class LoginActivity : AbstractActivity(), LoginView {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Tint status bar
-        paintStatusBar()
+        setStatusBarDark()
 
         //Set button click action
         setButtonEnterClickListener(binding.loginActivityButtonEnter)
+
+        binding.loginActivityTextViewRegister.setOnClickListener {
+            RegisterActivity.launch(this)
+        }
 
         //Set input listeners
         setInputListeners()
@@ -73,11 +77,6 @@ class LoginActivity : AbstractActivity(), LoginView {
                 binding.loginActivityEditTextPassword.text.toString()
             )
         }
-    }
-
-    private fun paintStatusBar() {
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.black)
     }
 
     override fun onInject() {

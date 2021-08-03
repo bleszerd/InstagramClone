@@ -12,4 +12,5 @@ interface View {
     fun getContext(): Context
     fun showProgressBar(){}
     fun hideProgressBar(){}
+    fun setStatusBarDark(){}
 }

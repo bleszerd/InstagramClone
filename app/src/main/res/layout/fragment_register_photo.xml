@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".register.presentation.RegisterActivity"
-    tools:showIn="@layout/activity_register">
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -25,7 +23,6 @@
         style="@style/InstaTextViewBaseForm"
         android:layout_gravity="center"
         android:text="@string/photo_register_subtitle" />
-
 
     <com.github.bleszerd.instagramclone.common.view.LoadingButton
         android:id="@+id/registerFragmentWelcomeButtonNext"
