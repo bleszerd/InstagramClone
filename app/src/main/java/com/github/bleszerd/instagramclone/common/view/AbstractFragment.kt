@@ -1,5 +1,6 @@
 package com.github.bleszerd.instagramclone.common.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorRes
@@ -17,6 +18,7 @@ Created by bleszerd.
 abstract class AbstractFragment<P>: Fragment(), View {
     protected var presenter: P? = null
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun getContext(): Context {
         return super.getContext()!!
     }

@@ -28,12 +28,31 @@ class RegisterActivity : AbstractActivity(), RegisterView {
 
     override fun onInject() {
         presenter = RegisterPresenter()
+        presenter.setRegisterView(this)
 
-        val frag = RegisterEmailFragment.newInstance(presenter)
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.registerActivityFragmentFragmentHost, frag, "fragment1")
-            .commit()
+        showNextView(RegisterSteps.EMAIL)
+    }
+
+    override fun showNextView(step: RegisterSteps) {
+        val manager = supportFragmentManager.beginTransaction()
+
+        val frag = when (step) {
+            RegisterSteps.EMAIL -> {
+                RegisterEmailFragment.newInstance(presenter)
+            }
+            RegisterSteps.NAME_PASSWORD -> {
+                RegisterNamePasswordFragment.newInstance(presenter)
+            }
+        }
+
+        if (supportFragmentManager.findFragmentById(R.id.registerActivityFragmentFragmentHost) == null) {
+            manager.add(R.id.registerActivityFragmentFragmentHost, frag, step.name)
+        } else {
+            manager.replace(R.id.registerActivityFragmentFragmentHost, frag, step.name)
+            manager.addToBackStack(step.name)
+        }
+
+        manager.commit()
     }
 
     override fun getContext(): Context {

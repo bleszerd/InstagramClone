@@ -10,11 +10,24 @@ Created by bleszerd.
 @author alive2k@programmer.net
  */
 class RegisterPresenter {
-    private lateinit var email: String
+    private lateinit var registerView: RegisterView
+    private lateinit var namePasswordView: RegisterView.NamePasswordView
     private lateinit var emailView: RegisterView.EmailView
+
+    private lateinit var email: String
+    private lateinit var name: String
+    private lateinit var password: String
+
+    fun setRegisterView(registerView: RegisterView){
+        this.registerView = registerView
+    }
 
     fun setEmailView(emailView: RegisterView.EmailView) {
         this.emailView = emailView
+    }
+
+    fun setNamePasswordView(namePasswordView: RegisterView.NamePasswordView){
+        this.namePasswordView = namePasswordView
     }
 
     fun setEmail(email: String){
@@ -24,5 +37,16 @@ class RegisterPresenter {
         }
 
         this.email = email
+        registerView.showNextView(RegisterSteps.NAME_PASSWORD)
+    }
+
+    fun setNameAndPassword(name: String, password: String, confirmPassword: String){
+        if(password != confirmPassword){
+            namePasswordView.onFailureForm(null, namePasswordView.getContext().getString(R.string.password_not_equal))
+            return
+        }
+
+        this.name = name
+        this.password = password
     }
 }

@@ -9,10 +9,18 @@ Created by bleszerd.
 @author alive2k@programmer.net
  */
 interface RegisterView {
+
+    fun showNextView(step: RegisterSteps){}
+
     interface EmailView {
         fun getContext(): Context
 
         fun onFailureForm(emailError: String)
-        fun showNextView(){}
+    }
+
+    interface NamePasswordView {
+        fun getContext(): Context
+
+        fun onFailureForm(nameError: String?, passwordError: String?)
     }
 }

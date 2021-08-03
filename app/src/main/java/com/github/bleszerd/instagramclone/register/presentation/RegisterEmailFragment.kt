@@ -39,20 +39,24 @@ class RegisterEmailFragment() : AbstractFragment<RegisterPresenter>(), RegisterV
 
         setButtonNextOnClick()
 
-        binding.registerFragmentNamePasswordTextViewLogin.setOnClickListener {
-            if(isAdded && activity != null){
-                activity?.finish()
-            }
-        }
+        setLoginTextButtonClick()
 
         setInputListeners()
 
         return binding.root
     }
 
+    private fun setLoginTextButtonClick() {
+        binding.registerFragmentNamePasswordTextViewLogin.setOnClickListener {
+            if (isAdded && activity != null) {
+                activity?.finish()
+            }
+        }
+    }
+
     private fun setButtonNextOnClick() {
         binding.registerFragmentButtonNext.setOnClickListener {
-
+            presenter?.setEmail(binding.registerFragmentEmailEditTextEmail.text.toString())
         }
     }
 
@@ -74,10 +78,6 @@ class RegisterEmailFragment() : AbstractFragment<RegisterPresenter>(), RegisterV
         }
 
         binding.registerFragmentEmailEditTextEmail.addTextChangedListener(textWatcher)
-    }
-
-    override fun showNextView() {
-
     }
 
     override fun onFailureForm(emailError: String) {
