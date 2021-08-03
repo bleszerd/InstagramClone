@@ -2,7 +2,6 @@ package com.github.bleszerd.instagramclone.common.view
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import com.github.bleszerd.instagramclone.common.utils.Drawables
@@ -23,12 +22,9 @@ abstract class AbstractActivity : AppCompatActivity(), View {
         return Drawables.getDrawable(this, drawableId)
     }
 
-    protected open fun onInject(){}
+    protected open fun onInject() {}
 
-    override fun showProgressBar() {
+    override fun showProgressBar() {}
 
-    }
-
-    override fun hideProgressBar() {
-    }
+    override fun hideProgressBar() {}
 }

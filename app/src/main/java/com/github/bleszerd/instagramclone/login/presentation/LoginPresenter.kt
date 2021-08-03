@@ -2,6 +2,10 @@ package com.github.bleszerd.instagramclone.login.presentation
 
 import android.os.Handler
 import android.os.Looper
+import androidx.core.content.ContextCompat
+import com.github.bleszerd.instagramclone.R
+import com.github.bleszerd.instagramclone.common.presenter.Presenter
+import com.github.bleszerd.instagramclone.common.utils.Strings
 import com.github.bleszerd.instagramclone.login.datasource.LoginDataSource
 
 /**
@@ -10,13 +14,27 @@ InstagramClone
 Created by bleszerd.
 @author alive2k@programmer.net
  */
-class LoginPresenter(private val view: LoginView, private val dataSource: LoginDataSource) {
+class LoginPresenter(private val view: LoginView, private val dataSource: LoginDataSource): Presenter{
     fun login(email: String, password: String){
+        if(!Strings.emailIsValid(email)){
+            view.onFailureForm(view.getContext().getString(R.string.invalid_email), null)
+            return
+        }
+
         view.showProgressBar()
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            view.hideProgressBar()
-            view.onFailureForm("Error1", "Error2")
-        }, 2000)
+        dataSource.login(email, password, this)
+    }
+
+    override fun onSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onError(message: String) {
+        view.onFailureForm(null, message)
+    }
+
+    override fun onComplete() {
+        view.hideProgressBar()
     }
 }
