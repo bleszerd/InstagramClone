@@ -1,6 +1,8 @@
 package com.github.bleszerd.instagramclone.common.view
 
 import android.graphics.drawable.Drawable
+import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import com.github.bleszerd.instagramclone.common.utils.Drawables
@@ -11,11 +13,22 @@ InstagramClone
 Created by bleszerd.
 @author alive2k@programmer.net
  */
-abstract class AbstractActivity : AppCompatActivity() {
+abstract class AbstractActivity : AppCompatActivity(), View {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        onInject()
+    }
+
     fun findDrawable(@DrawableRes drawableId: Int): Drawable? {
         return Drawables.getDrawable(this, drawableId)
     }
 
-    open fun showProgressBar(){}
-    open fun hideProgressBar(){}
+    protected open fun onInject(){}
+
+    override fun showProgressBar() {
+
+    }
+
+    override fun hideProgressBar() {
+    }
 }

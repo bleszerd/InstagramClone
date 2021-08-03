@@ -1,7 +1,6 @@
 package com.github.bleszerd.instagramclone.login.presentation
 
 import android.os.Bundle
-import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.WindowManager
@@ -10,9 +9,12 @@ import com.github.bleszerd.instagramclone.R
 import com.github.bleszerd.instagramclone.common.view.AbstractActivity
 import com.github.bleszerd.instagramclone.common.view.LoadingButton
 import com.github.bleszerd.instagramclone.databinding.ActivityLoginBinding
+import com.github.bleszerd.instagramclone.login.datasource.LoginLocalDataSource
 
 class LoginActivity : AbstractActivity(), LoginView, TextWatcher {
     private lateinit var binding: ActivityLoginBinding
+
+    lateinit var presenter: LoginPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,8 +22,7 @@ class LoginActivity : AbstractActivity(), LoginView, TextWatcher {
         setContentView(binding.root)
 
         //Tint status bar
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.black)
+        paintStatusBar()
 
         //Set button click action
         setButtonEnterClickListener(binding.loginActivityButtonEnter)
@@ -29,6 +30,16 @@ class LoginActivity : AbstractActivity(), LoginView, TextWatcher {
         //Set input listeners
         binding.loginActivityEditTextEmail.addTextChangedListener(this)
         binding.loginActivityEditTextPassword.addTextChangedListener(this)
+    }
+
+    override fun onInject() {
+        val dataSource = LoginLocalDataSource()
+        presenter = LoginPresenter(this, dataSource)
+    }
+
+    private fun paintStatusBar() {
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.black)
     }
 
     override fun showProgressBar() {
@@ -41,11 +52,10 @@ class LoginActivity : AbstractActivity(), LoginView, TextWatcher {
 
     private fun setButtonEnterClickListener(buttonEnter: LoadingButton) {
         buttonEnter.setOnClickListener {
-            buttonEnter.showProgress(true)
-
-            Handler(mainLooper).postDelayed({
-
-            }, 2000)
+            presenter.login(
+                binding.loginActivityEditTextEmail.text.toString(),
+                binding.loginActivityEditTextPassword.text.toString()
+            )
         }
     }
 
