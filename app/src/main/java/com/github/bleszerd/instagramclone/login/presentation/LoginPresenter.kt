@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.core.content.ContextCompat
 import com.github.bleszerd.instagramclone.R
+import com.github.bleszerd.instagramclone.common.models.UserAuth
 import com.github.bleszerd.instagramclone.common.presenter.Presenter
 import com.github.bleszerd.instagramclone.common.utils.Strings
 import com.github.bleszerd.instagramclone.login.datasource.LoginDataSource
@@ -26,11 +27,11 @@ class LoginPresenter(private val view: LoginView, private val dataSource: LoginD
         dataSource.login(email, password, this)
     }
 
-    override fun onSuccess() {
-        TODO("Not yet implemented")
+    override fun onSuccess(response: UserAuth) {
+        view.onUserLogged()
     }
 
-    override fun onError(message: String) {
+    override fun onError(message: String?) {
         view.onFailureForm(null, message)
     }
 

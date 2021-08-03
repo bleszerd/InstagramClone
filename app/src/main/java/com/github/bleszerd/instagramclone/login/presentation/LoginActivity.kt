@@ -11,6 +11,7 @@ import com.github.bleszerd.instagramclone.common.view.AbstractActivity
 import com.github.bleszerd.instagramclone.common.view.LoadingButton
 import com.github.bleszerd.instagramclone.databinding.ActivityLoginBinding
 import com.github.bleszerd.instagramclone.login.datasource.LoginLocalDataSource
+import com.github.bleszerd.instagramclone.main.presentation.MainActivity
 
 class LoginActivity : AbstractActivity(), LoginView {
     private lateinit var binding: ActivityLoginBinding
@@ -108,8 +109,7 @@ class LoginActivity : AbstractActivity(), LoginView {
     }
 
     override fun onUserLogged() {
-        // TODO: 02/08/2021
-        //Show main activity
+        MainActivity.launch(this)
     }
 
     override fun getContext(): Context {
