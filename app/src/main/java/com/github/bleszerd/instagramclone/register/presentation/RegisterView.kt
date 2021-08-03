@@ -1,5 +1,7 @@
 package com.github.bleszerd.instagramclone.register.presentation
 
+import android.content.Context
+
 /**
 InstagramClone
 03/08/2021 - 14:50
@@ -8,7 +10,9 @@ Created by bleszerd.
  */
 interface RegisterView {
     interface EmailView {
-        fun onFailureForm(emailError: String)
+        fun getContext(): Context
 
+        fun onFailureForm(emailError: String)
+        fun showNextView(){}
     }
 }

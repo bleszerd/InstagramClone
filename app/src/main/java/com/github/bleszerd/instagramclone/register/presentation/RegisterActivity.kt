@@ -9,6 +9,7 @@ import com.github.bleszerd.instagramclone.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AbstractActivity(), RegisterView {
     private lateinit var binding: ActivityRegisterBinding
+    private lateinit var presenter: RegisterPresenter
 
     companion object {
         fun launch(context: Context) {
@@ -26,7 +27,9 @@ class RegisterActivity : AbstractActivity(), RegisterView {
     }
 
     override fun onInject() {
-        val frag = RegisterEmailFragment()
+        presenter = RegisterPresenter()
+
+        val frag = RegisterEmailFragment.newInstance(presenter)
         supportFragmentManager
             .beginTransaction()
             .add(R.id.registerActivityFragmentFragmentHost, frag, "fragment1")

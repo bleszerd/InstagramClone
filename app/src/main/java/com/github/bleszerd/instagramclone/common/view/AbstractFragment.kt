@@ -14,9 +14,11 @@ InstagramClone
 Created by bleszerd.
 @author alive2k@programmer.net
  */
-abstract class AbstractFragment: Fragment(), View {
+abstract class AbstractFragment<P>: Fragment(), View {
+    protected var presenter: P? = null
+
     override fun getContext(): Context {
-        return super.requireContext()
+        return super.getContext()!!
     }
 
     override fun showProgressBar() {

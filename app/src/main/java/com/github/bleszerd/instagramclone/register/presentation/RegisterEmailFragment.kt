@@ -16,8 +16,19 @@ InstagramClone
 Created by bleszerd.
 @author alive2k@programmer.net
  */
-class RegisterEmailFragment() : AbstractFragment(), RegisterView.EmailView {
+class RegisterEmailFragment() : AbstractFragment<RegisterPresenter>(), RegisterView.EmailView {
     lateinit var binding: FragmentRegisterEmailBinding
+
+    companion object {
+        fun newInstance(presenter: RegisterPresenter): RegisterEmailFragment{
+            val fragment = RegisterEmailFragment()
+
+            fragment.presenter = presenter
+            presenter.setEmailView(fragment)
+
+            return fragment
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,5 +76,20 @@ class RegisterEmailFragment() : AbstractFragment(), RegisterView.EmailView {
         binding.registerFragmentEmailEditTextEmail.addTextChangedListener(textWatcher)
     }
 
-    override fun onFailureForm(emailError: String) {}
+    override fun showNextView() {
+
+    }
+
+    override fun onFailureForm(emailError: String) {
+        binding.registerFragmentEmailInputLayoutEmail.error =  emailError
+        binding.registerFragmentEmailEditTextEmail.background = findDrawable(R.drawable.edit_text_background_error)
+    }
+
+    override fun showProgressBar() {
+        binding.registerFragmentButtonNext.showProgress(true)
+    }
+
+    override fun hideProgressBar() {
+        binding.registerFragmentButtonNext.showProgress(false)
+    }
 }
