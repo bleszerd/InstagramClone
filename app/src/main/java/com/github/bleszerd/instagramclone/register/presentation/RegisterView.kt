@@ -1,6 +1,7 @@
 package com.github.bleszerd.instagramclone.register.presentation
 
 import android.content.Context
+import android.net.Uri
 import com.github.bleszerd.instagramclone.common.view.View
 
 /**
@@ -14,6 +15,10 @@ interface RegisterView {
     fun showNextView(step: RegisterSteps) {}
 
     fun onUserCreated()
+
+    fun showCamera()
+
+    fun showGallery()
 
     interface EmailView {
         fun getContext(): Context
@@ -31,5 +36,7 @@ interface RegisterView {
 
     interface WelcomeView {}
 
-    interface PhotoView {}
+    interface PhotoView {
+        fun onImageCropped(uri: Uri)
+    }
 }

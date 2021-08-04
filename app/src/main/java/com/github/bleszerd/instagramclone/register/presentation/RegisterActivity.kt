@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
-import android.widget.LinearLayout
+import android.view.View
+import android.widget.FrameLayout
 import com.github.bleszerd.instagramclone.R
+import com.github.bleszerd.instagramclone.common.component.MediaHelper
 import com.github.bleszerd.instagramclone.common.view.AbstractActivity
 import com.github.bleszerd.instagramclone.databinding.ActivityRegisterBinding
 import com.github.bleszerd.instagramclone.main.presentation.MainActivity
@@ -26,6 +28,10 @@ class RegisterActivity : AbstractActivity(), RegisterView {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.registerActivityButtonButtonCrop.setOnClickListener {
+
+        }
+
         setStatusBarDark()
     }
 
@@ -42,28 +48,24 @@ class RegisterActivity : AbstractActivity(), RegisterView {
     override fun showNextView(step: RegisterSteps) {
         val manager = supportFragmentManager.beginTransaction()
 
-        val layoutParams = binding.registerActivityScrollViewScrollView.layoutParams as LinearLayout.LayoutParams
-
         val frag = when (step) {
             RegisterSteps.EMAIL -> {
-                layoutParams.gravity = Gravity.BOTTOM
                 RegisterEmailFragment.newInstance(presenter)
             }
             RegisterSteps.NAME_PASSWORD -> {
-                layoutParams.gravity = Gravity.BOTTOM
                 RegisterNamePasswordFragment.newInstance(presenter)
             }
             RegisterSteps.WELCOME -> {
-                layoutParams.gravity = Gravity.BOTTOM
                 RegisterWelcomeFragment.newInstance(presenter)
             }
             RegisterSteps.PHOTO -> {
+                val layoutParams =
+                    binding.registerActivityScrollViewScrollView.layoutParams as FrameLayout.LayoutParams
                 layoutParams.gravity = Gravity.CENTER
+                binding.registerActivityScrollViewScrollView.layoutParams = layoutParams
                 RegisterPhotoFragment.newInstance(presenter)
             }
         }
-
-        binding.registerActivityScrollViewScrollView.layoutParams = layoutParams
 
         if (supportFragmentManager.findFragmentById(R.id.registerActivityFragmentFragmentHost) == null) {
             manager.add(R.id.registerActivityFragmentFragmentHost, frag, step.name)
@@ -75,8 +77,37 @@ class RegisterActivity : AbstractActivity(), RegisterView {
         manager.commit()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        cropViewEnabled(true)
+        val mediaHelper = MediaHelper.apply {
+            setActivity(this@RegisterActivity)
+            onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    private fun cropViewEnabled(enabled: Boolean) {
+        binding.registerActivityScrollViewScrollView.visibility =
+            if (enabled) View.GONE else View.VISIBLE
+        binding.registerActivityButtonButtonCrop.visibility =
+            if (enabled) View.VISIBLE else View.GONE
+        binding.registerActivityFrameLayoutRootContainer.setBackgroundColor(if (enabled) findColor(R.color.black) else findColor(
+            R.color.white))
+    }
+
     override fun onUserCreated() {
         MainActivity.launch(this)
+    }
+
+    override fun showCamera() {
+    }
+
+    override fun showGallery() {
+        MediaHelper.apply {
+            setActivity(this@RegisterActivity)
+            chooserGallery()
+        }
+
     }
 
     override fun getContext(): Context {

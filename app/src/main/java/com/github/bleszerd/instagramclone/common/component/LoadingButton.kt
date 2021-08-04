@@ -1,4 +1,4 @@
-package com.github.bleszerd.instagramclone.common.view
+package com.github.bleszerd.instagramclone.common.component
 
 import android.content.Context
 import android.util.AttributeSet

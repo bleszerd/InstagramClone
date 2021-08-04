@@ -51,4 +51,7 @@ dependencies {
 
     // Circle image view dependencies
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // Image cropper dependencies
+    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 }

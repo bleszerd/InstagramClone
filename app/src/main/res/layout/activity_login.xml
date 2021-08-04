@@ -55,7 +55,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <com.github.bleszerd.instagramclone.common.view.LoadingButton
+            <com.github.bleszerd.instagramclone.common.component.LoadingButton
                 android:id="@+id/loginActivityButtonEnter"
                 android:layout_width="match_parent"
                 app:text="Entrar"

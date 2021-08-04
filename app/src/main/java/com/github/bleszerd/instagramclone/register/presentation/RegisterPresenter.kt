@@ -1,5 +1,6 @@
 package com.github.bleszerd.instagramclone.register.presentation
 
+import android.net.Uri
 import com.github.bleszerd.instagramclone.R
 import com.github.bleszerd.instagramclone.common.models.GenericModel
 import com.github.bleszerd.instagramclone.common.presenter.Presenter
@@ -13,24 +14,42 @@ Created by bleszerd.
 @author alive2k@programmer.net
  */
 class RegisterPresenter(private val dataSource: RegisterLocalDataSource) : Presenter{
+    private lateinit var photoView: RegisterView.PhotoView
     private lateinit var registerView: RegisterView
     private lateinit var namePasswordView: RegisterView.NamePasswordView
     private lateinit var emailView: RegisterView.EmailView
 
     private lateinit var email: String
+    private lateinit var uri: Uri
     lateinit var name: String
-    private lateinit var password: String
 
     fun setRegisterView(registerView: RegisterView){
         this.registerView = registerView
+    }
+
+    fun setUri(uri: Uri){
+        this.uri = uri
+        photoView.onImageCropped(uri)
     }
 
     fun setEmailView(emailView: RegisterView.EmailView) {
         this.emailView = emailView
     }
 
+    fun showCamera(){
+        registerView.showCamera()
+    }
+
+    fun showGallery(){
+        registerView.showGallery()
+    }
+
     fun setNamePasswordView(namePasswordView: RegisterView.NamePasswordView){
         this.namePasswordView = namePasswordView
+    }
+
+    fun setPhotoView(photoView: RegisterView.PhotoView){
+        this.photoView = photoView
     }
 
     fun setEmail(email: String){
@@ -50,10 +69,9 @@ class RegisterPresenter(private val dataSource: RegisterLocalDataSource) : Prese
         }
 
         this.name = name
-        this.password = password
 
         namePasswordView.showProgressBar()
-        dataSource.createUser(this.name, this.email, this.password, this)
+        dataSource.createUser(name, email, password, this)
     }
 
     override fun onSuccess(response: GenericModel) {
