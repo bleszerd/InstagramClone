@@ -25,17 +25,17 @@
         android:text="@string/photo_register_subtitle" />
 
     <com.github.bleszerd.instagramclone.common.view.LoadingButton
-        android:id="@+id/registerFragmentWelcomeLoadingButtonNext"
+        android:id="@+id/registerFragmentPhotoLoadingButtonNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/add_photo"
         tools:layout_height="75dp" />
 
     <Button
-        android:id="@+id/registerFragmentButtonJumpPhoto"
+        android:id="@+id/registerFragmentPhotoButtonJumpPhoto"
+        style="@style/InstaFormButton.Link"
         android:layout_gravity="center"
         android:layout_marginBottom="36dp"
-        android:text="@string/jump"
-        style="@style/InstaFormButton.Link" />
+        android:text="@string/jump" />
 
 </LinearLayout>

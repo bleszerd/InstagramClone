@@ -4,15 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+import android.view.View
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
 import com.github.bleszerd.instagramclone.R
+import com.github.bleszerd.instagramclone.common.view.AbstractActivity
 import com.github.bleszerd.instagramclone.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AbstractActivity() {
     private lateinit var binding: ActivityMainBinding
 
     companion object {
@@ -27,20 +27,41 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.gray)
+        setLightStatusBar()
 
+        configureToolbar()
+
+        setContentView(binding.root)
+    }
+
+    private fun configureToolbar() {
         val toolbar = binding.activityMainToolbarToolbar
         setSupportActionBar(toolbar)
 
         if (supportActionBar != null) {
-            val cameraDrawable = AppCompatResources.getDrawable(applicationContext, R.drawable.ic_insta_camera)
+            val cameraDrawable =
+                AppCompatResources.getDrawable(applicationContext, R.drawable.ic_insta_camera)
 
             supportActionBar!!.title = ""
             supportActionBar!!.setHomeAsUpIndicator(cameraDrawable)
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
+    }
 
-        setContentView(binding.root)
+    private fun setLightStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0 and above
+            window.statusBarColor = findColor(R.color.gray)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//4.4 to 5.0
+            val localLayoutParams = window.attributes
+            localLayoutParams.flags =
+                (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or localLayoutParams.flags)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//android6.0 can modify the status bar text color and icon later
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+    }
+
+    override fun getContext(): Context {
+        return applicationContext
     }
 }

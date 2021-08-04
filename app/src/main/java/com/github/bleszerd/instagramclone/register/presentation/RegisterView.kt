@@ -13,6 +13,8 @@ interface RegisterView {
 
     fun showNextView(step: RegisterSteps) {}
 
+    fun onUserCreated()
+
     interface EmailView {
         fun getContext(): Context
 
@@ -28,4 +30,6 @@ interface RegisterView {
     }
 
     interface WelcomeView {}
+
+    interface PhotoView {}
 }

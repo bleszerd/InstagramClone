@@ -40,10 +40,10 @@ class RegisterWelcomeFragment: AbstractFragment<RegisterPresenter>(), RegisterVi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.registerFragmentWelcomeLoadingButtonNext.isEnabled = true
+        binding.registerFragmentPhotoLoadingButtonNext.isEnabled = true
         binding.registerFragmentWelcomeTextViewWelcomeText.text = context.getString(R.string.welcome_to_instagram, presenter?.name)
 
-        binding.registerFragmentWelcomeLoadingButtonNext.setOnClickListener {
+        binding.registerFragmentPhotoLoadingButtonNext.setOnClickListener {
             presenter?.showPhotoView()
         }
     }

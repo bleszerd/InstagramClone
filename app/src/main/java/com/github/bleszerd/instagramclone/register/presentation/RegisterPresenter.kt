@@ -71,4 +71,8 @@ class RegisterPresenter(private val dataSource: RegisterLocalDataSource) : Prese
     fun showPhotoView() {
         registerView.showNextView(RegisterSteps.PHOTO)
     }
+
+    fun jumpRegistration(){
+        registerView.onUserCreated()
+    }
 }

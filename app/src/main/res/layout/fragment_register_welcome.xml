@@ -14,7 +14,7 @@
         android:text="@string/welcome_to_instagram" />
 
     <com.github.bleszerd.instagramclone.common.view.LoadingButton
-        android:id="@+id/registerFragmentWelcomeLoadingButtonNext"
+        android:id="@+id/registerFragmentPhotoLoadingButtonNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/next"
