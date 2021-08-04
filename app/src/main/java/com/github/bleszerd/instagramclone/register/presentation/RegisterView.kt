@@ -1,6 +1,7 @@
 package com.github.bleszerd.instagramclone.register.presentation
 
 import android.content.Context
+import com.github.bleszerd.instagramclone.common.view.View
 
 /**
 InstagramClone
@@ -10,7 +11,7 @@ Created by bleszerd.
  */
 interface RegisterView {
 
-    fun showNextView(step: RegisterSteps){}
+    fun showNextView(step: RegisterSteps) {}
 
     interface EmailView {
         fun getContext(): Context
@@ -18,9 +19,13 @@ interface RegisterView {
         fun onFailureForm(emailError: String)
     }
 
-    interface NamePasswordView {
-        fun getContext(): Context
+    interface NamePasswordView : View {
+//        fun getContext(): Context
 
         fun onFailureForm(nameError: String?, passwordError: String?)
+
+        fun onFailureCreateUser(message: String)
     }
+
+    interface WelcomeView {}
 }

@@ -1,14 +1,14 @@
-package com.github.bleszerd.instagramclone.login.datasource
+package com.github.bleszerd.instagramclone.register.datasource
 
 import com.github.bleszerd.instagramclone.common.models.GenericModel
 import com.github.bleszerd.instagramclone.common.presenter.Presenter
 
 /**
 InstagramClone
-03/08/2021 - 09:27
+04/08/2021 - 08:25
 Created by bleszerd.
 @author alive2k@programmer.net
  */
-interface LoginDataSource {
-    fun login(email: String, password: String, presenter: Presenter){}
+interface RegisterDataSource {
+    fun createUser(name: String, email: String, password: String, presenter: Presenter)
 }

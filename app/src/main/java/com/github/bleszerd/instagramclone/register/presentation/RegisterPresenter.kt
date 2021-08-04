@@ -1,7 +1,10 @@
 package com.github.bleszerd.instagramclone.register.presentation
 
 import com.github.bleszerd.instagramclone.R
+import com.github.bleszerd.instagramclone.common.models.GenericModel
+import com.github.bleszerd.instagramclone.common.presenter.Presenter
 import com.github.bleszerd.instagramclone.common.utils.Strings
+import com.github.bleszerd.instagramclone.register.datasource.RegisterLocalDataSource
 
 /**
 InstagramClone
@@ -9,13 +12,13 @@ InstagramClone
 Created by bleszerd.
 @author alive2k@programmer.net
  */
-class RegisterPresenter {
+class RegisterPresenter(private val dataSource: RegisterLocalDataSource) : Presenter{
     private lateinit var registerView: RegisterView
     private lateinit var namePasswordView: RegisterView.NamePasswordView
     private lateinit var emailView: RegisterView.EmailView
 
     private lateinit var email: String
-    private lateinit var name: String
+    lateinit var name: String
     private lateinit var password: String
 
     fun setRegisterView(registerView: RegisterView){
@@ -48,5 +51,24 @@ class RegisterPresenter {
 
         this.name = name
         this.password = password
+
+        namePasswordView.showProgressBar()
+        dataSource.createUser(this.name, this.email, this.password, this)
+    }
+
+    override fun onSuccess(response: GenericModel) {
+        registerView.showNextView(RegisterSteps.WELCOME)
+    }
+
+    override fun onError(message: String?) {
+        namePasswordView.onFailureCreateUser(message ?: "")
+    }
+
+    override fun onComplete() {
+        namePasswordView.hideProgressBar()
+    }
+
+    fun showPhotoView() {
+        registerView.showNextView(RegisterSteps.PHOTO)
     }
 }

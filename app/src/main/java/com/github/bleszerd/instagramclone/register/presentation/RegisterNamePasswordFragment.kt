@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.github.bleszerd.instagramclone.R
 import com.github.bleszerd.instagramclone.common.view.AbstractFragment
 import com.github.bleszerd.instagramclone.databinding.FragmentRegisterNamePasswordBinding
@@ -70,6 +71,10 @@ class RegisterNamePasswordFragment : AbstractFragment<RegisterPresenter>(),
         }
     }
 
+    override fun onFailureCreateUser(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
     override fun onFailureForm(nameError: String?, passwordError: String?) {
         if (nameError != null) {
             binding.registerFragmentNameInputLayoutName.error = nameError
@@ -96,7 +101,7 @@ class RegisterNamePasswordFragment : AbstractFragment<RegisterPresenter>(),
         binding.registerFragmentButtonNext.showProgress(false)
     }
 
-    val textWatcher = object : TextWatcher {
+    private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -105,15 +110,18 @@ class RegisterNamePasswordFragment : AbstractFragment<RegisterPresenter>(),
                         && !binding.registerFragmentNameEditTextPassword.text.isNullOrEmpty()
                         && !binding.registerFragmentNameEditTextPasswordConfirm.text.isNullOrEmpty()
 
-            binding.registerFragmentNameEditTextName.background = findDrawable(R.drawable.edit_text_background)
+            binding.registerFragmentNameEditTextName.background =
+                findDrawable(R.drawable.edit_text_background)
             binding.registerFragmentNameInputLayoutName.error = null
             binding.registerFragmentNameInputLayoutName.isErrorEnabled = false
 
-            binding.registerFragmentNameEditTextPassword.background = findDrawable(R.drawable.edit_text_background)
+            binding.registerFragmentNameEditTextPassword.background =
+                findDrawable(R.drawable.edit_text_background)
             binding.registerFragmentNameInputLayoutPassword.error = null
             binding.registerFragmentNameInputLayoutPassword.isErrorEnabled = false
 
-            binding.registerFragmentNameEditTextPasswordConfirm.background = findDrawable(R.drawable.edit_text_background)
+            binding.registerFragmentNameEditTextPasswordConfirm.background =
+                findDrawable(R.drawable.edit_text_background)
             binding.registerFragmentNameInputLayoutPasswordConfirm.error = null
             binding.registerFragmentNameInputLayoutPasswordConfirm.isErrorEnabled = false
         }

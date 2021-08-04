@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.github.bleszerd.instagramclone.R
+import com.github.bleszerd.instagramclone.common.view.AbstractFragment
+import com.github.bleszerd.instagramclone.databinding.FragmentRegisterWelcomeBinding
 
 /**
 InstagramClone
@@ -13,12 +16,35 @@ InstagramClone
 Created by bleszerd.
 @author alive2k@programmer.net
  */
-class RegisterWelcomeFragment: Fragment() {
+class RegisterWelcomeFragment: AbstractFragment<RegisterPresenter>(), RegisterView.WelcomeView {
+    lateinit var binding: FragmentRegisterWelcomeBinding
+
+    companion object {
+        fun newInstance(presenter: RegisterPresenter): RegisterWelcomeFragment {
+            val fragment = RegisterWelcomeFragment()
+
+            fragment.presenter = presenter
+            return fragment
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        return inflater.inflate(R.layout.fragment_register_welcome, container, false)
+        binding = FragmentRegisterWelcomeBinding.inflate(layoutInflater)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.registerFragmentWelcomeLoadingButtonNext.isEnabled = true
+        binding.registerFragmentWelcomeTextViewWelcomeText.text = context.getString(R.string.welcome_to_instagram, presenter?.name)
+
+        binding.registerFragmentWelcomeLoadingButtonNext.setOnClickListener {
+            presenter?.showPhotoView()
+        }
     }
 }

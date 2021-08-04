@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.core.content.ContextCompat
 import com.github.bleszerd.instagramclone.R
+import com.github.bleszerd.instagramclone.common.models.GenericModel
 import com.github.bleszerd.instagramclone.common.models.UserAuth
 import com.github.bleszerd.instagramclone.common.presenter.Presenter
 import com.github.bleszerd.instagramclone.common.utils.Strings
@@ -27,7 +28,7 @@ class LoginPresenter(private val view: LoginView, private val dataSource: LoginD
         dataSource.login(email, password, this)
     }
 
-    override fun onSuccess(response: UserAuth) {
+    override fun onSuccess(response: GenericModel) {
         view.onUserLogged()
     }
 

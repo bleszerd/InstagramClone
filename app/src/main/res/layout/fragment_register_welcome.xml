@@ -5,23 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".register.presentation.RegisterActivity"
-    tools:showIn="@layout/activity_register">
+    tools:context=".register.presentation.RegisterActivity">
 
     <TextView
+        android:id="@+id/registerFragmentWelcomeTextViewWelcomeText"
         style="@style/InstaTextViewBaseForm"
         android:layout_gravity="center"
         android:text="@string/welcome_to_instagram" />
 
     <com.github.bleszerd.instagramclone.common.view.LoadingButton
-        android:id="@+id/registerFragmentWelcomeButtonNext"
+        android:id="@+id/registerFragmentWelcomeLoadingButtonNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/next"
         tools:layout_height="75dp" />
 
     <TextView
-        android:id="@+id/registerFragmentWelcomeNamePasswordTextViewLogin"
+        android:id="@+id/registerFragmentWelcomeTextViewTerms"
         style="@style/InstaTextViewBase"
         android:layout_marginTop="200dp"
         android:gravity="center"

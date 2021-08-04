@@ -25,7 +25,7 @@
         android:text="@string/photo_register_subtitle" />
 
     <com.github.bleszerd.instagramclone.common.view.LoadingButton
-        android:id="@+id/registerFragmentWelcomeButtonNext"
+        android:id="@+id/registerFragmentWelcomeLoadingButtonNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/add_photo"

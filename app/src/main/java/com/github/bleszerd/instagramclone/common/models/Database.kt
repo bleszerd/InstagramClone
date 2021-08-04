@@ -11,14 +11,16 @@ Created by bleszerd.
  */
 object Database {
     private lateinit var onSuccessListener: OnSuccessListener<GenericModel>
-    private val usersAuth: MutableSet<UserAuth> = HashSet()
     private var userAuth: UserAuth? = null
+
+    private val usersAuth: MutableSet<UserAuth> = HashSet()
+    private val users: MutableSet<User> = HashSet()
 
     private var onFailureListener: OnFailureListener? = null
     private var onCompleteListener: OnCompleteListener? = null
 
     init {
-//        usersAuth.add(UserAuth("user1@gmail.com", "1234"))
+        usersAuth.add(UserAuth("email@example.com", "example"))
 //        usersAuth.add(UserAuth("user2@gmail.com", "4567"))
 //        usersAuth.add(UserAuth("user3@gmail.com", "7891"))
 //        usersAuth.add(UserAuth("user4@gmail.com", "1112"))
@@ -37,6 +39,26 @@ object Database {
 
     fun addOnCompleteListener(listener: OnCompleteListener) {
         this.onCompleteListener = listener
+    }
+
+    fun createUser(name: String, email: String, password: String){
+        timeout {
+            val userAuth = UserAuth(email, password)
+            val user = User(email, name)
+
+            usersAuth.add(userAuth)
+
+            val added = users.add(user)
+            if(added){
+                this.userAuth = userAuth
+                onSuccessListener.onSuccess(userAuth)
+            } else {
+                this.userAuth = null
+                onFailureListener?.onFailure(Error("Usuário já existe"))
+            }
+
+            onCompleteListener?.onComplete()
+        }
     }
 
     fun login(email: String, password: String) {

@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.github.bleszerd.instagramclone.R
 import com.github.bleszerd.instagramclone.common.view.AbstractActivity
 import com.github.bleszerd.instagramclone.databinding.ActivityRegisterBinding
+import com.github.bleszerd.instagramclone.register.datasource.RegisterLocalDataSource
 
 class RegisterActivity : AbstractActivity(), RegisterView {
     private lateinit var binding: ActivityRegisterBinding
@@ -27,7 +28,9 @@ class RegisterActivity : AbstractActivity(), RegisterView {
     }
 
     override fun onInject() {
-        presenter = RegisterPresenter()
+        val dataSource = RegisterLocalDataSource()
+
+        presenter = RegisterPresenter(dataSource)
         presenter.setRegisterView(this)
 
         showNextView(RegisterSteps.EMAIL)
@@ -42,6 +45,15 @@ class RegisterActivity : AbstractActivity(), RegisterView {
             }
             RegisterSteps.NAME_PASSWORD -> {
                 RegisterNamePasswordFragment.newInstance(presenter)
+            }
+            RegisterSteps.WELCOME -> {
+                RegisterWelcomeFragment.newInstance(presenter)
+            }
+//            RegisterSteps.PHOTO -> {
+//
+//            }
+            else -> {
+                RegisterEmailFragment.newInstance(presenter)
             }
         }
 
