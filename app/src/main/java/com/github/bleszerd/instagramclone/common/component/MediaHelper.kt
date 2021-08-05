@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.File
+import java.lang.ref.WeakReference
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,12 +28,11 @@ Created by bleszerd.
 class MediaHelper {
     companion object {
         private var savedImageUri: Uri? = null
-        private lateinit var cropImageView: CropImageView
         private var mCroppedUri: Uri? = null
         private const val CAMERA_CODE = 1
         private const val GALLERY_CODE = 2
 
-        private lateinit var activity: Activity
+        private lateinit var activity: WeakReference<Activity>
         private lateinit var fragment: Fragment
         private var listener: OnImageCroppedListener? = null
 
@@ -41,11 +41,11 @@ class MediaHelper {
         }
 
         fun init(activity: Activity) {
-            this.activity = activity
+            this.activity = WeakReference(activity)
         }
 
         fun setActivity(activity: Activity) {
-            this.activity = activity
+            this.activity = WeakReference(activity)
         }
 
         fun listener(listener: OnImageCroppedListener) {
@@ -53,7 +53,6 @@ class MediaHelper {
         }
 
         fun cropView(cropImageView: CropImageView) {
-            this.cropImageView = cropImageView
             cropImageView.apply {
                 setAspectRatio(1, 1)
                 setFixedAspectRatio(true)
@@ -61,7 +60,6 @@ class MediaHelper {
                     val uri = result.uri
                     if (uri != null && listener != null) {
                         listener?.onImageCropped(uri)
-                        cropImageView.visibility = View.GONE
                     }
                 }
             }
@@ -77,7 +75,7 @@ class MediaHelper {
             if (::fragment.isInitialized && fragment.activity != null)
                 return fragment.context!!
 
-            return activity
+            return activity.get()?.applicationContext!!
         }
 
 
@@ -95,8 +93,14 @@ class MediaHelper {
                     mCroppedUri = FileProvider.getUriForFile(getContext(),
                         "com.github.bleszerd.instagramclone.fileprovider",
                         photoFile)
+
+                    val sharedPrefs = getContext().getSharedPreferences("camera_image", 0)
+                    val sharedEdit = sharedPrefs.edit()
+                    sharedEdit.putString("url", mCroppedUri.toString())
+                    sharedEdit.apply()
+
                     i.putExtra(MediaStore.EXTRA_OUTPUT, mCroppedUri)
-                    activity.startActivityForResult(i, CAMERA_CODE)
+                    activity.get()?.startActivityForResult(i, CAMERA_CODE)
                 }
             }
         }
@@ -112,17 +116,25 @@ class MediaHelper {
             val i = Intent()
             i.type = "image/*"
             i.action = Intent.ACTION_GET_CONTENT
-            activity.startActivityForResult(i, GALLERY_CODE)
+            activity.get()?.startActivityForResult(i, GALLERY_CODE)
         }
 
         fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            val sharedPrefs = getContext().getSharedPreferences("camera_image", 0)
+            val url = sharedPrefs.getString("url", null)
+
+            if (mCroppedUri == null && url != null){
+                mCroppedUri = Uri.parse(url)
+            }
+
+
             if (requestCode == CAMERA_CODE && resultCode == Activity.RESULT_OK) {
                 if (CropImage.isReadExternalStoragePermissionsRequired(getContext(),
                         mCroppedUri!!)
                 ) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (::activity.isInitialized) {
-                            activity.requestPermissions(arrayOf(
+                            activity.get()?.requestPermissions(arrayOf(
                                 Manifest.permission.READ_EXTERNAL_STORAGE),
                                 CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE
                             )
@@ -134,19 +146,15 @@ class MediaHelper {
                         }
                     }
                 } else {
-                    startCropImageActivity()
+                    listener?.onImagePicked(mCroppedUri)
                 }
             } else if (requestCode == GALLERY_CODE && resultCode == Activity.RESULT_OK) {
                 this.mCroppedUri = CropImage.getPickImageResultUri(getContext(), data)
-                startCropImageActivity()
+                listener?.onImagePicked(mCroppedUri)
             }
         }
 
-        private fun startCropImageActivity() {
-            cropImageView.setImageUriAsync(mCroppedUri)
-        }
-
-        fun cropImage() {
+        fun cropImage(cropImageView: CropImageView) {
             val getImage = getContext().externalCacheDir
             if (getImage != null) {
                 this.savedImageUri =
@@ -157,6 +165,7 @@ class MediaHelper {
 
         interface OnImageCroppedListener {
             fun onImageCropped(uri: Uri)
+            fun onImagePicked(uri: Uri?)
         }
     }
 }
