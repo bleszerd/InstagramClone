@@ -2,18 +2,20 @@ package com.github.bleszerd.instagramclone.register.presentation
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import com.github.bleszerd.instagramclone.R
 import com.github.bleszerd.instagramclone.common.component.MediaHelper
+import com.github.bleszerd.instagramclone.common.component.MediaHelper.Companion.OnImageCroppedListener
 import com.github.bleszerd.instagramclone.common.view.AbstractActivity
 import com.github.bleszerd.instagramclone.databinding.ActivityRegisterBinding
 import com.github.bleszerd.instagramclone.main.presentation.MainActivity
 import com.github.bleszerd.instagramclone.register.datasource.RegisterLocalDataSource
 
-class RegisterActivity : AbstractActivity(), RegisterView {
+class RegisterActivity : AbstractActivity(), RegisterView, OnImageCroppedListener {
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var presenter: RegisterPresenter
 
@@ -29,7 +31,8 @@ class RegisterActivity : AbstractActivity(), RegisterView {
         setContentView(binding.root)
 
         binding.registerActivityButtonButtonCrop.setOnClickListener {
-
+            cropViewEnabled(false)
+            MediaHelper.cropImage()
         }
 
         setStatusBarDark()
@@ -77,6 +80,10 @@ class RegisterActivity : AbstractActivity(), RegisterView {
         manager.commit()
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         cropViewEnabled(true)
@@ -100,11 +107,19 @@ class RegisterActivity : AbstractActivity(), RegisterView {
     }
 
     override fun showCamera() {
+        MediaHelper.apply {
+            init(this@RegisterActivity)
+            listener(this@RegisterActivity)
+            cropView(binding.registerActivityCropImageViewImageCropper)
+            chooserCamera()
+        }
     }
 
     override fun showGallery() {
         MediaHelper.apply {
-            setActivity(this@RegisterActivity)
+            init(this@RegisterActivity)
+            listener(this@RegisterActivity)
+            cropView(binding.registerActivityCropImageViewImageCropper)
             chooserGallery()
         }
 
@@ -112,5 +127,9 @@ class RegisterActivity : AbstractActivity(), RegisterView {
 
     override fun getContext(): Context {
         return applicationContext
+    }
+
+    override fun onImageCropped(uri: Uri) {
+        presenter.setUri(uri)
     }
 }
