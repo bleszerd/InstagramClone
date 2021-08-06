@@ -4,11 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.WindowManager
-import androidx.core.content.ContextCompat
 import com.github.bleszerd.instagramclone.R
-import com.github.bleszerd.instagramclone.common.view.AbstractActivity
 import com.github.bleszerd.instagramclone.common.component.LoadingButton
+import com.github.bleszerd.instagramclone.common.models.Database
+import com.github.bleszerd.instagramclone.common.view.AbstractActivity
 import com.github.bleszerd.instagramclone.databinding.ActivityLoginBinding
 import com.github.bleszerd.instagramclone.login.datasource.LoginLocalDataSource
 import com.github.bleszerd.instagramclone.main.presentation.MainActivity
@@ -25,6 +24,10 @@ class LoginActivity : AbstractActivity(), LoginView {
         setContentView(binding.root)
 
         setStatusBarDark()
+
+        val user = Database.userAuth
+        if (user != null)
+            onUserLogged()
 
         //Set button click action
         setButtonEnterClickListener(binding.loginActivityButtonEnter)
@@ -108,6 +111,7 @@ class LoginActivity : AbstractActivity(), LoginView {
     }
 
     override fun onUserLogged() {
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         MainActivity.launch(this)
     }
 

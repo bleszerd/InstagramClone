@@ -28,8 +28,21 @@ object Database {
 //        usersAuth.add(UserAuth("user4@gmail.com", "1112"))
 //        usersAuth.add(UserAuth("user5@gmail.com", "1314"))
 //        usersAuth.add(UserAuth("user6@gmail.com", "1516"))
+
+        init()
     }
 
+    fun init() {
+        val email = "user1@gmail.com"
+        val password = "123"
+        val name = "user1"
+        val userAuth = UserAuth(email, password)
+        val user = User(email, name, userAuth.getUUID())
+
+        usersAuth.add(userAuth)
+        users.add(user)
+        this.userAuth = userAuth
+    }
 
     fun addOnSuccessListener(listener: OnSuccessListener) {
         this.onSuccessListener = listener
@@ -43,11 +56,11 @@ object Database {
         this.onCompleteListener = listener
     }
 
-    fun addPhoto(uuid: String, uri: Uri){
+    fun addPhoto(uuid: String, uri: Uri) {
         timeout {
             val users = Database.users
             users.forEach { user ->
-                if (user.uuid == uuid){
+                if (user.uuid == uuid) {
                     user.uri = uri
                 }
             }
@@ -57,7 +70,7 @@ object Database {
         }
     }
 
-    fun createUser(name: String, email: String, password: String){
+    fun createUser(name: String, email: String, password: String) {
         timeout {
             val userAuth = UserAuth(email, password)
             val user = User(email, name, userAuth.getUUID())
@@ -65,15 +78,18 @@ object Database {
             usersAuth.add(userAuth)
 
             val added = users.add(user)
-            if(added){
+            if (added) {
                 this.userAuth = userAuth
-                onSuccessListener?.onSuccess(userAuth)
+                if (onSuccessListener != null)
+                    onSuccessListener?.onSuccess(userAuth)
             } else {
                 this.userAuth = null
-                onFailureListener?.onFailure(Error("Usuário já existe"))
+                if (onFailureListener != null)
+                    onFailureListener?.onFailure(Error("Usuário já existe"))
             }
 
-            onCompleteListener?.onComplete()
+            if (onCompleteListener != null)
+                onCompleteListener?.onComplete()
         }
     }
 
