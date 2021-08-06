@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.bleszerd.instagramclone.R
 import com.github.bleszerd.instagramclone.databinding.FragmentMainHomeBinding
 import com.github.bleszerd.instagramclone.databinding.FragmentMainProfileBinding
+import com.github.bleszerd.instagramclone.main.presentation.MainView
+import com.github.bleszerd.instagramclone.register.presentation.RegisterEmailFragment
+import com.github.bleszerd.instagramclone.register.presentation.RegisterPresenter
 
 /**
 InstagramClone
@@ -19,7 +22,22 @@ Created by bleszerd.
 @author alive2k@programmer.net
  */
 class HomeFragment() : Fragment() {
+    private lateinit var mainView: MainView
     lateinit var binding: FragmentMainHomeBinding
+
+    companion object {
+        fun newInstance(mainView: MainView): HomeFragment {
+            val fragment = HomeFragment()
+
+            fragment.setMainView(mainView)
+
+            return fragment
+        }
+    }
+
+    private fun setMainView(mainView: MainView){
+        this.mainView = mainView
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

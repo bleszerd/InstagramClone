@@ -4,10 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.github.bleszerd.instagramclone.R
 import com.github.bleszerd.instagramclone.common.view.AbstractActivity
@@ -16,10 +18,12 @@ import com.github.bleszerd.instagramclone.main.camera.presentation.CameraFragmen
 import com.github.bleszerd.instagramclone.main.home.presentation.HomeFragment
 import com.github.bleszerd.instagramclone.main.profile.presentation.ProfileFragment
 import com.github.bleszerd.instagramclone.main.search_presentation.SearchFragment
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-class MainActivity : AbstractActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AbstractActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
+    MainView {
     private lateinit var binding: ActivityMainBinding
 
     lateinit var homeFragment: Fragment
@@ -85,8 +89,8 @@ class MainActivity : AbstractActivity(), BottomNavigationView.OnNavigationItemSe
     }
 
     override fun onInject() {
-        homeFragment = HomeFragment()
-        profileFragment = ProfileFragment()
+        homeFragment = HomeFragment.newInstance(this)
+        profileFragment = ProfileFragment.newInstance(this)
         cameraFragment = CameraFragment()
         searchFragment = SearchFragment()
 
@@ -113,6 +117,14 @@ class MainActivity : AbstractActivity(), BottomNavigationView.OnNavigationItemSe
             .hide(homeFragment)
             .commit()
 
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+
+        binding.mainActivityBottomNavigationBottomBar.setOnNavigationItemSelectedListener(this)
+
+        val fm = supportFragmentManager
         val extras = intent.extras
         if (extras != null) {
             val source = extras.getInt(ACT_SOURCE)
@@ -120,17 +132,13 @@ class MainActivity : AbstractActivity(), BottomNavigationView.OnNavigationItemSe
                 REGISTER_ACTIVITY -> {
                     fm.beginTransaction().hide(active).show(profileFragment).commit()
                     active = profileFragment
+                    scrollToolbarEnabled(true)
                 }
                 LOGIN_ACTIVITY -> {
 
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.mainActivityBottomNavigationBottomBar.setOnNavigationItemSelectedListener(this)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -143,6 +151,7 @@ class MainActivity : AbstractActivity(), BottomNavigationView.OnNavigationItemSe
                     .commit()
 
                 active = homeFragment
+                scrollToolbarEnabled(false)
                 return true
             }
 
@@ -173,11 +182,33 @@ class MainActivity : AbstractActivity(), BottomNavigationView.OnNavigationItemSe
                     .commit()
 
                 active = profileFragment
+                scrollToolbarEnabled(true)
                 return true
             }
         }
 
         return false
+    }
+
+    override fun scrollToolbarEnabled(enabled: Boolean) {
+        val toolbar = binding.activityMainToolbarToolbar
+        val appBarLayout = binding.mainActivityAppBarLayoutAppBar
+
+        val params = toolbar.layoutParams as AppBarLayout.LayoutParams
+        val appBarLayoutParams = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+
+        if (enabled) {
+            params.scrollFlags =
+                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+
+            appBarLayoutParams.behavior = AppBarLayout.Behavior()
+            appBarLayout.layoutParams = appBarLayoutParams
+        } else {
+            params.scrollFlags = 0
+            appBarLayoutParams.behavior = null
+            appBarLayout.layoutParams = appBarLayoutParams
+        }
+
     }
 
 }

@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.bleszerd.instagramclone.R
+import com.github.bleszerd.instagramclone.common.view.AbstractFragment
 import com.github.bleszerd.instagramclone.databinding.FragmentMainProfileBinding
+import com.github.bleszerd.instagramclone.main.home.presentation.HomeFragment
+import com.github.bleszerd.instagramclone.main.presentation.MainView
 
 /**
 InstagramClone
@@ -16,8 +19,23 @@ InstagramClone
 Created by bleszerd.
 @author alive2k@programmer.net
  */
-class ProfileFragment() : Fragment() {
+class ProfileFragment() : AbstractFragment<ProfilePresenter>() {
+    private lateinit var mainView: MainView
     lateinit var binding: FragmentMainProfileBinding
+
+    companion object {
+        fun newInstance(mainView: MainView): ProfileFragment {
+            val fragment = ProfileFragment()
+
+            fragment.setMainView(mainView)
+
+            return fragment
+        }
+    }
+
+    private fun setMainView(mainView: MainView){
+        this.mainView = mainView
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
