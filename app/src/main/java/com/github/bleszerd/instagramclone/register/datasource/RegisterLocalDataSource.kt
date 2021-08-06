@@ -1,5 +1,6 @@
 package com.github.bleszerd.instagramclone.register.datasource
 
+import android.net.Uri
 import com.github.bleszerd.instagramclone.common.models.Database
 import com.github.bleszerd.instagramclone.common.models.GenericModel
 import com.github.bleszerd.instagramclone.common.models.UserAuth
@@ -19,8 +20,8 @@ class RegisterLocalDataSource : RegisterDataSource {
         presenter: Presenter,
     ) {
         Database.createUser(name, email, password)
-        Database.addOnSuccessListener(object : Database.OnSuccessListener<GenericModel> {
-            override fun onSuccess(response: GenericModel) {
+        Database.addOnSuccessListener(object : Database.OnSuccessListener {
+            override fun onSuccess(response: Any) {
                 presenter.onSuccess(response as UserAuth)
             }
         })
@@ -36,5 +37,18 @@ class RegisterLocalDataSource : RegisterDataSource {
         })
 
 
+    }
+
+    override fun addPhoto(uri: Uri, presenter: Presenter) {
+        Database.apply {
+            addPhoto(userAuth!!.getUUID(), uri)
+            addOnSuccessListener(object : Database.OnSuccessListener {
+                override fun onSuccess(response: Any) {
+                    presenter.onSuccess(response)
+                }
+
+            })
+
+        }
     }
 }

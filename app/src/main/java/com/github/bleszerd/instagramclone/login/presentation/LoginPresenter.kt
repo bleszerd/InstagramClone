@@ -28,7 +28,7 @@ class LoginPresenter(private val view: LoginView, private val dataSource: LoginD
         dataSource.login(email, password, this)
     }
 
-    override fun onSuccess(response: GenericModel) {
+    override fun onSuccess(response: Any) {
         view.onUserLogged()
     }
 

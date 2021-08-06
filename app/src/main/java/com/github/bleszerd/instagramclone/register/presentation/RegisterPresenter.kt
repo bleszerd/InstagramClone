@@ -2,7 +2,6 @@ package com.github.bleszerd.instagramclone.register.presentation
 
 import android.net.Uri
 import com.github.bleszerd.instagramclone.R
-import com.github.bleszerd.instagramclone.common.models.GenericModel
 import com.github.bleszerd.instagramclone.common.presenter.Presenter
 import com.github.bleszerd.instagramclone.common.utils.Strings
 import com.github.bleszerd.instagramclone.register.datasource.RegisterLocalDataSource
@@ -13,7 +12,7 @@ InstagramClone
 Created by bleszerd.
 @author alive2k@programmer.net
  */
-class RegisterPresenter(private val dataSource: RegisterLocalDataSource) : Presenter{
+class RegisterPresenter(private val dataSource: RegisterLocalDataSource) : Presenter {
     private lateinit var photoView: RegisterView.PhotoView
     private lateinit var registerView: RegisterView
     private lateinit var namePasswordView: RegisterView.NamePasswordView
@@ -23,37 +22,40 @@ class RegisterPresenter(private val dataSource: RegisterLocalDataSource) : Prese
     private lateinit var uri: Uri
     lateinit var name: String
 
-    fun setRegisterView(registerView: RegisterView){
+    fun setRegisterView(registerView: RegisterView) {
         this.registerView = registerView
     }
 
-    fun setUri(uri: Uri){
+    fun setUri(uri: Uri) {
         this.uri = uri
         photoView.onImageCropped(uri)
+        photoView.showProgressBar()
+
+        dataSource.addPhoto(uri, UpdatePhotoCallback())
     }
 
     fun setEmailView(emailView: RegisterView.EmailView) {
         this.emailView = emailView
     }
 
-    fun showCamera(){
+    fun showCamera() {
         registerView.showCamera()
     }
 
-    fun showGallery(){
+    fun showGallery() {
         registerView.showGallery()
     }
 
-    fun setNamePasswordView(namePasswordView: RegisterView.NamePasswordView){
+    fun setNamePasswordView(namePasswordView: RegisterView.NamePasswordView) {
         this.namePasswordView = namePasswordView
     }
 
-    fun setPhotoView(photoView: RegisterView.PhotoView){
+    fun setPhotoView(photoView: RegisterView.PhotoView) {
         this.photoView = photoView
     }
 
-    fun setEmail(email: String){
-        if(!Strings.emailIsValid(email)){
+    fun setEmail(email: String) {
+        if (!Strings.emailIsValid(email)) {
             emailView.onFailureForm(emailView.getContext().getString(R.string.invalid_email))
             return
         }
@@ -62,9 +64,10 @@ class RegisterPresenter(private val dataSource: RegisterLocalDataSource) : Prese
         registerView.showNextView(RegisterSteps.NAME_PASSWORD)
     }
 
-    fun setNameAndPassword(name: String, password: String, confirmPassword: String){
-        if(password != confirmPassword){
-            namePasswordView.onFailureForm(null, namePasswordView.getContext().getString(R.string.password_not_equal))
+    fun setNameAndPassword(name: String, password: String, confirmPassword: String) {
+        if (password != confirmPassword) {
+            namePasswordView.onFailureForm(null,
+                namePasswordView.getContext().getString(R.string.password_not_equal))
             return
         }
 
@@ -74,7 +77,7 @@ class RegisterPresenter(private val dataSource: RegisterLocalDataSource) : Prese
         dataSource.createUser(name, email, password, this)
     }
 
-    override fun onSuccess(response: GenericModel) {
+    override fun onSuccess(response: Any) {
         registerView.showNextView(RegisterSteps.WELCOME)
     }
 
@@ -90,7 +93,18 @@ class RegisterPresenter(private val dataSource: RegisterLocalDataSource) : Prese
         registerView.showNextView(RegisterSteps.PHOTO)
     }
 
-    fun jumpRegistration(){
+    fun jumpRegistration() {
         registerView.onUserCreated()
+    }
+
+    inner class UpdatePhotoCallback : Presenter {
+        override fun onSuccess(response: Any) {
+            registerView.onUserCreated()
+        }
+
+        override fun onError(message: String?) {}
+
+        override fun onComplete() {}
+
     }
 }

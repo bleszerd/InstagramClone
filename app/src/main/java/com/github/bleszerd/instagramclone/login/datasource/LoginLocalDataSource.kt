@@ -15,8 +15,8 @@ class LoginLocalDataSource : LoginDataSource {
     override fun login(email: String, password: String, presenter: Presenter) {
         Database.apply {
             login(email, password)
-            addOnSuccessListener(object : Database.OnSuccessListener<GenericModel> {
-                override fun onSuccess(response: GenericModel) {
+            addOnSuccessListener(object : Database.OnSuccessListener {
+                override fun onSuccess(response: Any) {
                     presenter.onSuccess(response as UserAuth)
                 }
             })

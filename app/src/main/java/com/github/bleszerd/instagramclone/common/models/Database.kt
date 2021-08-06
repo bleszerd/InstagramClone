@@ -1,5 +1,6 @@
 package com.github.bleszerd.instagramclone.common.models
 
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 
@@ -10,14 +11,15 @@ Created by bleszerd.
 @author alive2k@programmer.net
  */
 object Database {
-    private lateinit var onSuccessListener: OnSuccessListener<GenericModel>
-    private var userAuth: UserAuth? = null
+    var userAuth: UserAuth? = null
 
     private val usersAuth: MutableSet<UserAuth> = HashSet()
     private val users: MutableSet<User> = HashSet()
+    private val storages: MutableSet<Uri> = HashSet()
 
     private var onFailureListener: OnFailureListener? = null
     private var onCompleteListener: OnCompleteListener? = null
+    private var onSuccessListener: OnSuccessListener? = null
 
     init {
         usersAuth.add(UserAuth("email@example.com", "example"))
@@ -29,7 +31,7 @@ object Database {
     }
 
 
-    fun addOnSuccessListener(listener: OnSuccessListener<GenericModel>) {
+    fun addOnSuccessListener(listener: OnSuccessListener) {
         this.onSuccessListener = listener
     }
 
@@ -41,17 +43,31 @@ object Database {
         this.onCompleteListener = listener
     }
 
+    fun addPhoto(uuid: String, uri: Uri){
+        timeout {
+            val users = Database.users
+            users.forEach { user ->
+                if (user.uuid == uuid){
+                    user.uri = uri
+                }
+            }
+
+            storages.add(uri)
+            onSuccessListener?.onSuccess(true)
+        }
+    }
+
     fun createUser(name: String, email: String, password: String){
         timeout {
             val userAuth = UserAuth(email, password)
-            val user = User(email, name)
+            val user = User(email, name, userAuth.getUUID())
 
             usersAuth.add(userAuth)
 
             val added = users.add(user)
             if(added){
                 this.userAuth = userAuth
-                onSuccessListener.onSuccess(userAuth)
+                onSuccessListener?.onSuccess(userAuth)
             } else {
                 this.userAuth = null
                 onFailureListener?.onFailure(Error("Usuário já existe"))
@@ -67,7 +83,7 @@ object Database {
 
             if (usersAuth.contains(userAuth)) {
                 this.userAuth = userAuth
-                onSuccessListener.onSuccess(userAuth)
+                onSuccessListener?.onSuccess(userAuth)
             } else {
                 this.userAuth = null
                 onFailureListener?.onFailure(IllegalAccessError("Usuário não encontrado"))
@@ -83,8 +99,8 @@ object Database {
         }, 2000)
     }
 
-    interface OnSuccessListener<T: GenericModel> {
-        fun onSuccess(response: T)
+    interface OnSuccessListener {
+        fun onSuccess(response: Any)
     }
 
     interface OnFailureListener {

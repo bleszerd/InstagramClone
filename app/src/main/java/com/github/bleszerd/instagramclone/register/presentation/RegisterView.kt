@@ -36,7 +36,7 @@ interface RegisterView {
 
     interface WelcomeView {}
 
-    interface PhotoView {
+    interface PhotoView: View {
         fun onImageCropped(uri: Uri)
     }
 }

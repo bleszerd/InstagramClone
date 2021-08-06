@@ -10,7 +10,7 @@ Created by bleszerd.
 @author alive2k@programmer.net
  */
 interface Presenter {
-    fun onSuccess(response: GenericModel)
+    fun onSuccess(response: Any)
     fun onError(message: String?)
     fun onComplete()
 }

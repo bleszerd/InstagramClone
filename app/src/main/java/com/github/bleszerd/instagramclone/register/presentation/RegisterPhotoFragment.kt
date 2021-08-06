@@ -41,6 +41,10 @@ class RegisterPhotoFragment : AbstractFragment<RegisterPresenter>(), RegisterVie
         return binding.root
     }
 
+    override fun showProgressBar() {
+        binding.registerFragmentPhotoLoadingButtonNext.showProgress(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.registerFragmentPhotoLoadingButtonNext.isEnabled = true

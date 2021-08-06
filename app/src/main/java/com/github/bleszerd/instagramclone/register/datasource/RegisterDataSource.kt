@@ -1,5 +1,6 @@
 package com.github.bleszerd.instagramclone.register.datasource
 
+import android.net.Uri
 import com.github.bleszerd.instagramclone.common.models.GenericModel
 import com.github.bleszerd.instagramclone.common.presenter.Presenter
 
@@ -11,4 +12,6 @@ Created by bleszerd.
  */
 interface RegisterDataSource {
     fun createUser(name: String, email: String, password: String, presenter: Presenter)
+
+    fun addPhoto(uri: Uri, presenter: Presenter)
 }
