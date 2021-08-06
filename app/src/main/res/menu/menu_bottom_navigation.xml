@@ -13,7 +13,7 @@
         android:title="@string/home" />
 
     <item
-        android:id="@+id/menuBottomAddButton"
+        android:id="@+id/menuBottomCameraButton"
         android:enabled="true"
         android:icon="@drawable/ic_insta_add"
         android:title="@string/add_photo" />

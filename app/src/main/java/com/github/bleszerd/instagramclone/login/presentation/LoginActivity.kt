@@ -112,7 +112,7 @@ class LoginActivity : AbstractActivity(), LoginView {
 
     override fun onUserLogged() {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        MainActivity.launch(this)
+        MainActivity.launch(this, MainActivity.LOGIN_ACTIVITY)
     }
 
     override fun getContext(): Context {

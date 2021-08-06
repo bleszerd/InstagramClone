@@ -86,10 +86,6 @@ class RegisterActivity : AbstractActivity(), RegisterView, OnImageCroppedListene
         manager.commit()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         cropViewEnabled(true)
@@ -111,7 +107,7 @@ class RegisterActivity : AbstractActivity(), RegisterView, OnImageCroppedListene
     }
 
     override fun onUserCreated() {
-        MainActivity.launch(this)
+        MainActivity.launch(this, MainActivity.REGISTER_ACTIVITY)
     }
 
     override fun showCamera() {
