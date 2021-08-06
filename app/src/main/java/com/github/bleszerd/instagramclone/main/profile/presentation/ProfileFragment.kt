@@ -1,16 +1,16 @@
 package com.github.bleszerd.instagramclone.main.profile.presentation
 
-import android.content.Context
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.*
 import android.widget.ImageView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.bleszerd.instagramclone.R
+import com.github.bleszerd.instagramclone.common.models.Post
 import com.github.bleszerd.instagramclone.common.view.AbstractFragment
 import com.github.bleszerd.instagramclone.databinding.FragmentMainProfileBinding
-import com.github.bleszerd.instagramclone.main.home.presentation.HomeFragment
 import com.github.bleszerd.instagramclone.main.presentation.MainView
 
 /**
@@ -19,21 +19,40 @@ InstagramClone
 Created by bleszerd.
 @author alive2k@programmer.net
  */
-class ProfileFragment() : AbstractFragment<ProfilePresenter>() {
-    private lateinit var mainView: MainView
+class ProfileFragment() : AbstractFragment<ProfilePresenter>(), MainView.ProfileView {
     lateinit var binding: FragmentMainProfileBinding
 
+    private lateinit var mainView: MainView
+    private lateinit var postAdapter: PostAdapter
+
     companion object {
-        fun newInstance(mainView: MainView): ProfileFragment {
-            val fragment = ProfileFragment()
+        fun newInstance(mainView: MainView, profilePresenter: ProfilePresenter): ProfileFragment {
+            val profileFragment = ProfileFragment()
 
-            fragment.setMainView(mainView)
+            profileFragment.presenter = profilePresenter
+            profileFragment.setMainView(mainView)
+            profilePresenter.setView(profileFragment)
 
-            return fragment
+            return profileFragment
         }
     }
 
-    private fun setMainView(mainView: MainView){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setHasOptionsMenu(true)
+        presenter?.findUsers()
+    }
+
+    override fun showProgressBar() {
+        mainView.showProgressBar()
+    }
+
+    override fun hideProgressBar() {
+        mainView.hideProgressBar()
+    }
+
+    private fun setMainView(mainView: MainView) {
         this.mainView = mainView
     }
 
@@ -43,13 +62,12 @@ class ProfileFragment() : AbstractFragment<ProfilePresenter>() {
         savedInstanceState: Bundle?,
     ): View? {
         // TODO: 02/08/2021 app:layout_scrollFlags="scroll" at toolbar
-        val binding = FragmentMainProfileBinding.inflate(layoutInflater)
+        binding = FragmentMainProfileBinding.inflate(layoutInflater)
 
+        postAdapter = PostAdapter()
         val recycler: RecyclerView = binding.fragmentMainProfileRecyclerViewPostList
         recycler.layoutManager = GridLayoutManager(context, 3)
-        recycler.adapter = PostAdapter()
-
-        setHasOptionsMenu(true)
+        recycler.adapter = postAdapter
 
         return binding.root
     }
@@ -59,28 +77,39 @@ class ProfileFragment() : AbstractFragment<ProfilePresenter>() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun showPhoto(photo: Uri) {
+        try {
+            if (context.contentResolver != null) {
+                val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, photo)
+                binding.fragmentMainProfileCircleImageProfilePhoto.setImageBitmap(bitmap)
+            }
+        } catch (e: Error) {
+            println(e.message)
+        }
+
+    }
+
+    override fun showData(name: String, following: String, followers: String, posts: String) {
+        binding.fragmentMainProfileTextViewUsername.text = name
+        binding.fragmentMainProfileTextViewFollowersLabelCount.text = followers
+        binding.fragmentMainProfileTextViewFollowingLabelCount.text = following
+        binding.fragmentMainProfileTextViewPostsLabelCount.text = posts
+    }
+
+    override fun showPosts(posts: MutableList<Post>) {
+        postAdapter.posts = posts
+        postAdapter.notifyDataSetChanged()
+    }
+
     inner class PostAdapter() : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
-        private val images = mutableListOf(
-            R.drawable.sample_dog,
-            R.drawable.banner_sample,
-            R.drawable.sample_dog,
-            R.drawable.banner_sample,
-            R.drawable.sample_dog,
-            R.drawable.banner_sample,
-            R.drawable.sample_dog,
-            R.drawable.banner_sample,
-            R.drawable.sample_dog,
-            R.drawable.banner_sample,
-            R.drawable.sample_dog,
-            R.drawable.banner_sample,
-        )
+        var posts = mutableListOf<Post>()
 
         inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            fun bind(imageId: Int) {
+            fun bind(post: Post) {
                 val postImage =
                     itemView.findViewById<ImageView>(R.id.itemProfileGridImageViewPhoto)
 
-                postImage.setImageResource(imageId)
+                postImage.setImageURI(post.uri)
             }
         }
 
@@ -90,12 +119,11 @@ class ProfileFragment() : AbstractFragment<ProfilePresenter>() {
         }
 
         override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-            holder.bind(images[position])
+            holder.bind(posts[position])
         }
 
         override fun getItemCount(): Int {
-            return images.size
+            return posts.size
         }
-
     }
 }

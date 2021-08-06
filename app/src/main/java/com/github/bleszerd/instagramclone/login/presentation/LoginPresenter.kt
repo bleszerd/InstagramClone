@@ -1,11 +1,6 @@
 package com.github.bleszerd.instagramclone.login.presentation
 
-import android.os.Handler
-import android.os.Looper
-import androidx.core.content.ContextCompat
 import com.github.bleszerd.instagramclone.R
-import com.github.bleszerd.instagramclone.common.models.GenericModel
-import com.github.bleszerd.instagramclone.common.models.UserAuth
 import com.github.bleszerd.instagramclone.common.presenter.Presenter
 import com.github.bleszerd.instagramclone.common.utils.Strings
 import com.github.bleszerd.instagramclone.login.datasource.LoginDataSource

@@ -1,8 +1,5 @@
 package com.github.bleszerd.instagramclone.common.presenter
 
-import com.github.bleszerd.instagramclone.common.models.GenericModel
-import com.github.bleszerd.instagramclone.common.models.UserAuth
-
 /**
 InstagramClone
 03/08/2021 - 10:16

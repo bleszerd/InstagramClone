@@ -16,28 +16,20 @@ object Database {
     private val usersAuth: MutableSet<UserAuth> = HashSet()
     private val users: MutableSet<User> = HashSet()
     private val storages: MutableSet<Uri> = HashSet()
+    private val posts: HashMap<String, HashSet<Post>> = HashMap()
 
     private var onFailureListener: OnFailureListener? = null
     private var onCompleteListener: OnCompleteListener? = null
     private var onSuccessListener: OnSuccessListener? = null
 
     init {
-        usersAuth.add(UserAuth("email@example.com", "example"))
-//        usersAuth.add(UserAuth("user2@gmail.com", "4567"))
-//        usersAuth.add(UserAuth("user3@gmail.com", "7891"))
-//        usersAuth.add(UserAuth("user4@gmail.com", "1112"))
-//        usersAuth.add(UserAuth("user5@gmail.com", "1314"))
-//        usersAuth.add(UserAuth("user6@gmail.com", "1516"))
+//        usersAuth.add(UserAuth("email@example.com", "example"))
 
-        init()
-    }
-
-    fun init() {
         val email = "user1@gmail.com"
         val password = "123"
         val name = "user1"
         val userAuth = UserAuth(email, password)
-        val user = User(email, name, userAuth.getUUID())
+        val user = User(email, name, null, 0, 0, 0, userAuth.getUUID())
 
         usersAuth.add(userAuth)
         users.add(user)
@@ -73,7 +65,7 @@ object Database {
     fun createUser(name: String, email: String, password: String) {
         timeout {
             val userAuth = UserAuth(email, password)
-            val user = User(email, name, userAuth.getUUID())
+            val user = User(email, name, null, 0, 0, 0, null)
 
             usersAuth.add(userAuth)
 
@@ -109,10 +101,48 @@ object Database {
         }
     }
 
+    fun findPosts(uuid: String) {
+        timeout {
+            val posts = Database.posts
+            var res = posts[uuid]
+
+            if (res == null)
+                res = HashSet()
+
+            if (onSuccessListener != null)
+                onSuccessListener?.onSuccess(ArrayList(res))
+
+            if (onCompleteListener != null)
+                onCompleteListener?.onComplete()
+        }
+    }
+
+    fun findUser(uuid: String) {
+        timeout {
+            val users = Database.users
+            var res: User? = null
+            users.forEach { user ->
+                if (user.uuid.equals(uuid)) {
+                    res = user
+                    return@forEach
+                }
+            }
+
+            if (onSuccessListener != null && res != null)
+                onSuccessListener?.onSuccess(res!!)
+            else if (onFailureListener != null) {
+                onFailureListener?.onFailure(Error("Usuário não encontrado"))
+            }
+
+            if (onCompleteListener != null)
+                onCompleteListener?.onComplete()
+        }
+    }
+
     private fun timeout(r: Runnable) {
         Handler(Looper.getMainLooper()).postDelayed({
             r.run()
-        }, 2000)
+        }, 1000)
     }
 
     interface OnSuccessListener {

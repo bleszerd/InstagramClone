@@ -1,7 +1,6 @@
 package com.github.bleszerd.instagramclone.login.datasource
 
 import com.github.bleszerd.instagramclone.common.models.Database
-import com.github.bleszerd.instagramclone.common.models.GenericModel
 import com.github.bleszerd.instagramclone.common.models.UserAuth
 import com.github.bleszerd.instagramclone.common.presenter.Presenter
 

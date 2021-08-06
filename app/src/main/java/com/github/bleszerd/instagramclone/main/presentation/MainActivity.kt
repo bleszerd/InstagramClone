@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
@@ -16,7 +15,9 @@ import com.github.bleszerd.instagramclone.common.view.AbstractActivity
 import com.github.bleszerd.instagramclone.databinding.ActivityMainBinding
 import com.github.bleszerd.instagramclone.main.camera.presentation.CameraFragment
 import com.github.bleszerd.instagramclone.main.home.presentation.HomeFragment
+import com.github.bleszerd.instagramclone.main.profile.datasource.ProfileLocalDataSource
 import com.github.bleszerd.instagramclone.main.profile.presentation.ProfileFragment
+import com.github.bleszerd.instagramclone.main.profile.presentation.ProfilePresenter
 import com.github.bleszerd.instagramclone.main.search_presentation.SearchFragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -36,7 +37,6 @@ class MainActivity : AbstractActivity(), BottomNavigationView.OnNavigationItemSe
         const val ACT_SOURCE: String = "act_source"
         const val LOGIN_ACTIVITY = 0
         const val REGISTER_ACTIVITY = 1
-
 
         fun launch(context: Context, source: Int) {
             val intent = Intent(context, MainActivity::class.java)
@@ -89,8 +89,11 @@ class MainActivity : AbstractActivity(), BottomNavigationView.OnNavigationItemSe
     }
 
     override fun onInject() {
+        val profileDataSource = ProfileLocalDataSource()
+        val profilePresenter = ProfilePresenter(profileDataSource)
+
         homeFragment = HomeFragment.newInstance(this)
-        profileFragment = ProfileFragment.newInstance(this)
+        profileFragment = ProfileFragment.newInstance(this, profilePresenter)
         cameraFragment = CameraFragment()
         searchFragment = SearchFragment()
 
@@ -116,7 +119,14 @@ class MainActivity : AbstractActivity(), BottomNavigationView.OnNavigationItemSe
             .add(R.id.mainActivityFragmentFragmentHost, homeFragment)
             .hide(homeFragment)
             .commit()
+    }
 
+    override fun showProgressBar() {
+        binding.mainActivityProgressBarProgressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        binding.mainActivityProgressBarProgressBar.visibility = View.GONE
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

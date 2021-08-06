@@ -34,7 +34,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/mainActivityBottomNavigationBottomBar"
@@ -47,7 +47,13 @@
                 android:layout_height="match_parent"
                 tools:layout="@layout/fragment_main_home" />
 
-        </LinearLayout>
+            <ProgressBar
+                android:id="@+id/mainActivityProgressBarProgressBar"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

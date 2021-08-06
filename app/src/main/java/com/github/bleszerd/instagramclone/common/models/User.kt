@@ -11,10 +11,12 @@ Created by bleszerd.
 data class User(
     val email: String,
     val name: String,
+    var uri: Uri?,
+    var following: Int? = null,
+    var followers: Int? = null,
+    var posts: Int? = null,
     var uuid: String?
-): GenericModel{
-    lateinit var uri: Uri
-
+){
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

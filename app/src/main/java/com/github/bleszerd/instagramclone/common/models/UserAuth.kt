@@ -10,7 +10,7 @@ Created by bleszerd.
 data class UserAuth(
     var email: String,
     var password: String,
-): GenericModel{
+){
     fun getUUID(): String{
         return hashCode().toString()
     }
